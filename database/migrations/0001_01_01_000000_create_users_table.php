@@ -26,7 +26,7 @@ return new class extends Migration
         });
 
         Schema::create('user_profile', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained(app(User::class)->getTable())->cascadeOnDelete();
             $table->string('pob')->nullable();
             $table->date('dob')->nullable();
             $table->unsignedTinyInteger('sex')->nullable();
@@ -60,7 +60,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->foreignIdFor(User::class)->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

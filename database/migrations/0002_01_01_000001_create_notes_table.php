@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Year;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,10 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('periods', function (Blueprint $table) {
+        Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Year::class)->constrained(app(Year::class)->getTable())->cascadeOnUpdate();
-            $table->string('name');
+            $table->morphs('notable');
+            $table->text('content');
+            $table->foreignIdFor(User::class, 'issuer_id')->constrained(app(User::class)->getTable())->cascadeOnUpdate();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('periods');
+        Schema::dropIfExists('notes');
     }
 };

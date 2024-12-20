@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(Year::class)->constrained(app(Year::class)->getTable())->cascadeOnUpdate();
+            $table->foreignIdFor(Year::class)->constrained(app(Year::class)->getTable())->cascadeOnUpdate();
             $table->string('grade');
             $table->unsignedTinyInteger('level');
             $table->string('name');
             $table->string('capacity')->nullable();
-            $table->foreignId(Employee::class, 'homeroom_id')->nullable()->constrained(app(Employee::class)->getTable())->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignIdFor(Employee::class, 'homeroom_id')->nullable()->constrained(app(Employee::class)->getTable())->cascadeOnUpdate()->nullOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });
