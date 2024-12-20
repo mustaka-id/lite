@@ -92,7 +92,7 @@ class RegistrantResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('registered_by')
+                Tables\Columns\TextColumn::make('registeredBy.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('registered_at')

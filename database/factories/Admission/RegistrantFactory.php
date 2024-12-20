@@ -2,22 +2,19 @@
 
 namespace Database\Factories\Admission;
 
+use App\Models\Admission\Wave;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Admission\Registrant>
- */
 class RegistrantFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'wave_id' => ($wave = fake()->randomElement(Wave::all()))->id,
+            'user_id' => User::factory(),
+            'registered_by' => User::first()?->id,
+            'registered_at' => fake()->dateTimeBetween($wave->opened_at, $wave->closed_at),
         ];
     }
 }

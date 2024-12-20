@@ -34,6 +34,7 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login(Pages\Login::class)
+            ->profile(isSimple: false)
             ->registration()
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
