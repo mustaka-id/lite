@@ -62,8 +62,14 @@ class RegistrantPaymentResource extends Resource
                         Forms\Components\Select::make('receiver_id')
                             ->required()
                             ->relationship('receiver', 'name')
-                            ->preload(),
-                    ])
+                            ->preload()
+                            ->default(auth()->id()),
+                    ]),
+                    Forms\Components\Section::make([
+                        Forms\Components\Textarea::make('content'),
+                        Forms\Components\Hidden::make('issuer_id')
+                            ->default(auth()->id()),
+                    ])->relationship('note')
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     AppComponents\Forms\TimestampPlaceholder::make()

@@ -2,10 +2,12 @@
 
 namespace App\Models\Admission;
 
+use App\Models\Support\Note;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Spatie\EloquentSortable\SortableTrait;
 
 class RegistrantBill extends Model
@@ -48,5 +50,10 @@ class RegistrantBill extends Model
     public function buildSortQuery()
     {
         return static::query()->where('registrant_id', $this->registrant_id)->where('category', $this->category);
+    }
+
+    public function note(): MorphOne
+    {
+        return $this->morphOne(Note::class, 'noteable');
     }
 }

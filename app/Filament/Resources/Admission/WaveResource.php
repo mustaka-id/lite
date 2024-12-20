@@ -44,12 +44,27 @@ class WaveResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\DateTimePicker::make('opened_at'),
-                        Forms\Components\DateTimePicker::make('closed_at'),
-                        Forms\Components\TextInput::make('meta'),
-                    ])
+                    ]),
+                    Forms\Components\Section::make([
+                        Forms\Components\Repeater::make('meta.payment_components')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->columnSpan(['lg' => 2])
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('amount')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->minItems(1)
+                            ->columns(3),
+                    ]),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
+                    Forms\Components\Section::make([
+                        Forms\Components\DateTimePicker::make('opened_at'),
+                        Forms\Components\DateTimePicker::make('closed_at'),
+                    ]),
                     AppComponents\Forms\TimestampPlaceholder::make()
                 ])
             ]);
@@ -61,7 +76,6 @@ class WaveResource extends Resource
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
                 Tables\Columns\TextColumn::make('year.name')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),

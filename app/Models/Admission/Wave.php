@@ -2,8 +2,10 @@
 
 namespace App\Models\Admission;
 
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,6 +16,7 @@ class Wave extends Model
     protected $table = 'adm_waves';
 
     protected $fillable = [
+        'year_id',
         'name',
         'opened_at',
         'closed_at',
@@ -37,5 +40,10 @@ class Wave extends Model
     public function registrantBills(): HasMany
     {
         return $this->hasMany(RegistrantBill::class);
+    }
+
+    public function year(): BelongsTo
+    {
+        return $this->belongsTo(Year::class);
     }
 }

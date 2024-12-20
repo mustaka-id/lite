@@ -48,14 +48,21 @@ class RegistrantResource extends Resource
                         Forms\Components\Select::make('registered_by')
                             ->relationship('registeredBy', 'name')
                             ->preload(),
+                    ]),
+                    Forms\Components\Section::make([
+                        Forms\Components\Textarea::make('content'),
+                        Forms\Components\Hidden::make('issuer_id')
+                            ->default(auth()->id()),
+                    ])->relationship('note')
+                ])->columnSpan(['lg' => 2]),
+                Forms\Components\Group::make([
+                    Forms\Components\Section::make([
                         Forms\Components\DateTimePicker::make('registered_at'),
                         Forms\Components\DateTimePicker::make('verified_at'),
                         Forms\Components\DateTimePicker::make('validated_at'),
                         Forms\Components\DateTimePicker::make('paid_off_at'),
                         Forms\Components\DateTimePicker::make('accepted_at'),
-                    ])
-                ])->columnSpan(['lg' => 2]),
-                Forms\Components\Group::make([
+                    ]),
                     AppComponents\Forms\TimestampPlaceholder::make()
                 ])
             ]);

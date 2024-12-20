@@ -2,11 +2,13 @@
 
 namespace App\Models\Admission;
 
+use App\Models\Support\Note;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Registrant extends Model
@@ -55,5 +57,10 @@ class Registrant extends Model
     public function bills(): HasMany
     {
         return $this->hasMany(RegistrantBill::class);
+    }
+
+    public function note(): MorphOne
+    {
+        return $this->morphOne(Note::class, 'noteable');
     }
 }

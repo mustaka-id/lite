@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('notes', function (Blueprint $table) {
             $table->id();
-            $table->morphs('notable');
+            $table->morphs('noteable');
             $table->text('content');
             $table->foreignIdFor(User::class, 'issuer_id')->constrained(app(User::class)->getTable())->cascadeOnUpdate();
             $table->softDeletes();

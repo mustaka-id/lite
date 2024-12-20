@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admission\Wave;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,5 +17,10 @@ class Year extends Model
     public function periods(): HasMany
     {
         return $this->hasMany(Period::class);
+    }
+
+    public function waves(): HasMany
+    {
+        return $this->hasMany(Wave::class);
     }
 }

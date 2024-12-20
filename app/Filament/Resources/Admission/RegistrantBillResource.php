@@ -54,7 +54,12 @@ class RegistrantBillResource extends Resource
                             ->required()
                             ->numeric()
                             ->default(0),
-                    ])
+                    ]),
+                    Forms\Components\Section::make([
+                        Forms\Components\Textarea::make('content'),
+                        Forms\Components\Hidden::make('issuer_id')
+                            ->default(auth()->id()),
+                    ])->relationship('note')
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     AppComponents\Forms\TimestampPlaceholder::make()

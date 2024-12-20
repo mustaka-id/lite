@@ -3,9 +3,11 @@
 namespace App\Models\Admission;
 
 use App\Enums\PaymentMethod;
+use App\Models\Support\Note;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class RegistrantPayment extends Model
 {
@@ -42,5 +44,10 @@ class RegistrantPayment extends Model
     public function bill(): BelongsTo
     {
         return $this->belongsTo(RegistrantBill::class);
+    }
+
+    public function note(): MorphOne
+    {
+        return $this->morphOne(Note::class, 'noteable');
     }
 }
