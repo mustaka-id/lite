@@ -6,6 +6,8 @@ use App\Enums\PaymentMethod;
 use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Admission\RegistrantPaymentResource\Pages;
 use App\Filament\Resources\Admission\RegistrantPaymentResource\RelationManagers;
+use App\Models\Admission\Registrant;
+use App\Models\Admission\RegistrantBill;
 use App\Models\Admission\RegistrantPayment;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -14,6 +16,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrantPaymentResource extends Resource
 {
@@ -42,38 +45,63 @@ class RegistrantPaymentResource extends Resource
                     Forms\Components\Section::make([
                         Forms\Components\Select::make('registrant_id')
                             ->relationship('registrant', 'id')
-                            ->required(),
-                        Forms\Components\Select::make('bill_id')
-                            ->relationship('bill', 'name')
-                            ->required(),
-                        Forms\Components\TextInput::make('code')
+                            ->getOptionLabelFromRecordUsing(fn($record) => $record->user->name)
                             ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('name')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('amount')
-                            ->required()
-                            ->numeric(),
-                        Forms\Components\Select::make('method')
-                            ->options(PaymentMethod::class),
-                        Forms\Components\DateTimePicker::make('paid_at'),
-                        Forms\Components\Select::make('payer_id')
-                            ->relationship('payer', 'name')
                             ->preload()
-                            ->required(),
-                        Forms\Components\Select::make('receiver_id')
-                            ->required()
-                            ->relationship('receiver', 'name')
-                            ->preload()
-                            ->default(auth()->id()),
+                            ->searchable()
+                            ->live()
+                            ->afterStateUpdated(fn($state, callable $set) => $set('payer_id', Registrant::find($state)?->user_id)),
                     ]),
-                    Forms\Components\Section::make([
-                        Forms\Components\Textarea::make('content'),
-                        Forms\Components\Hidden::make('issuer_id')
-                            ->default(auth()->id()),
-                    ])->relationship('note')
+                    Forms\Components\Section::make()
+                        ->visible(fn(callable $get) => filled($get('registrant_id')))
+                        ->columns(2)
+                        ->schema([
+                            Forms\Components\Select::make('bill_id')
+                                ->relationship('bill', 'name', fn($query, callable $get) => $query->where('registrant_id', $get('registrant_id')))
+                                ->required()
+                                ->preload()
+                                ->searchable()
+                                ->live()
+                                ->afterStateUpdated(fn($state, callable $set) => $set('amount', RegistrantBill::find($state)?->items()?->sum('amount') ?? 0)),
+                            Forms\Components\TextInput::make('code')
+                                ->required()
+                                ->maxLength(255)
+                                ->default('TRX-' . time()),
+                            Forms\Components\TextInput::make('name')
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('amount')
+                                ->required()
+                                ->numeric(),
+                            Forms\Components\Select::make('method')
+                                ->options(PaymentMethod::class)
+                                ->preload()
+                                ->searchable()
+                                ->default(PaymentMethod::Transfer),
+                            Forms\Components\DateTimePicker::make('paid_at')
+                                ->required()
+                                ->default(now()),
+                            Forms\Components\Select::make('payer_id')
+                                ->relationship('payer', 'name')
+                                ->searchable()
+                                ->required(),
+                            Forms\Components\Select::make('receiver_id')
+                                ->required()
+                                ->relationship('receiver', 'name')
+                                ->getOptionLabelFromRecordUsing(fn($record) => $record->user->name)
+                                ->preload()
+                                ->searchable()
+                                ->default(Auth::user()->employee?->id),
+                        ]),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
+                    Forms\Components\Section::make()
+                        ->relationship('note', fn(callable $get) => strlen($get('note.content')) > 0)
+                        ->schema([
+                            Forms\Components\Textarea::make('content')
+                                ->label(__('Note')),
+                            Forms\Components\Hidden::make('issuer_id')
+                                ->default(Auth::id()),
+                        ]),
                     AppComponents\Forms\TimestampPlaceholder::make()
                 ])
             ]);
@@ -84,7 +112,7 @@ class RegistrantPaymentResource extends Resource
         return $table
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
-                Tables\Columns\TextColumn::make('registrant.id')
+                Tables\Columns\TextColumn::make('registrant.user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('bill.name')
@@ -95,17 +123,17 @@ class RegistrantPaymentResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
+                    ->money('IDR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('method')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('paid_at')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payer_id')
+                Tables\Columns\TextColumn::make('payer.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('receiver_id')
+                Tables\Columns\TextColumn::make('receiver.user.name')
                     ->numeric()
                     ->sortable(),
                 AppComponents\Columns\LastModifiedColumn::make(),

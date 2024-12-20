@@ -107,4 +107,14 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     {
         return $this->parents()->whereType(ParentType::Other)->one()->latestOfMany();
     }
+
+    public function employees(): HasMany
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function employee(): HasOne
+    {
+        return $this->employees()->one()->latestOfMany();
+    }
 }

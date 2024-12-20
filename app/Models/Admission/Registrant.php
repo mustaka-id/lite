@@ -4,6 +4,7 @@ namespace App\Models\Admission;
 
 use App\Models\Support\Note;
 use App\Models\User;
+use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -50,6 +51,11 @@ class Registrant extends Model
         return $this->belongsTo(User::class)->withDefault();
     }
 
+    public function profile(): BelongsTo
+    {
+        return $this->belongsTo(UserProfile::class, 'user_id', 'user_id')->withDefault();
+    }
+
     public function registeredBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'registered_by')->withDefault();;
@@ -57,7 +63,12 @@ class Registrant extends Model
 
     public function bills(): HasMany
     {
-        return $this->hasMany(RegistrantBill::class);
+        return $this->hasMany(RegistrantBill::class, 'registrant_id');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(RegistrantPayment::class);
     }
 
     public function note(): MorphOne

@@ -9,48 +9,39 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\EloquentSortable\SortableTrait;
 
 class RegistrantBill extends Model
 {
-    use HasFactory, SoftDeletes, SortableTrait;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'adm_registrant_bills';
 
     protected $fillable = [
-        'wave_id',
         'registrant_id',
-        'category',
-        'sequence',
         'name',
-        'amount',
+        'meta'
     ];
 
     protected function casts(): array
     {
         return [
-            'amount' => 'double',
+            'meta' => 'array',
         ];
     }
 
     public function registrant(): BelongsTo
     {
-        return $this->belongsTo(Registrant::class);
+        return $this->belongsTo(Registrant::class)->withDefault();
     }
 
-    public function wave(): BelongsTo
+    public function items(): HasMany
     {
-        return $this->belongsTo(Wave::class);
+        return $this->hasMany(RegistrantBillItem::class, 'bill_id');
     }
 
     public function payments(): HasMany
     {
         return $this->hasMany(RegistrantPayment::class, 'bill_id');
-    }
-
-    public function buildSortQuery()
-    {
-        return static::query()->where('registrant_id', $this->registrant_id);
     }
 
     public function note(): MorphOne

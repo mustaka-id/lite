@@ -6,6 +6,7 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Admission\RegistrantBillResource\Pages;
 use App\Filament\Resources\Admission\RegistrantBillResource\RelationManagers;
 use App\Models\Admission\RegistrantBill;
+use Awcodes\TableRepeater;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrantBillResource extends Resource
 {
@@ -39,33 +41,49 @@ class RegistrantBillResource extends Resource
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([
-                        Forms\Components\Select::make('wave_id')
-                            ->relationship('wave', 'name')
-                            ->required(),
                         Forms\Components\Select::make('registrant_id')
                             ->relationship('registrant', 'id')
+                            ->getOptionLabelFromRecordUsing(fn($record) => $record->user->name)
                             ->required(),
-                        Forms\Components\TextInput::make('category')
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('sequence')
-                            ->numeric(),
                         Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('amount')
-                            ->required()
-                            ->numeric()
-                            ->default(0),
+                            ->required(),
                     ]),
-                    Forms\Components\Section::make([
-                        Forms\Components\Textarea::make('content'),
-                        Forms\Components\Hidden::make('issuer_id')
-                            ->default(auth()->id()),
-                    ])->relationship('note')
+                    Forms\Components\Section::make()
+                        ->relationship('note', fn(callable $get) => strlen($get('note.content')) > 0)
+                        ->schema([
+                            Forms\Components\Textarea::make('content')
+                                ->label(__('Note')),
+                            Forms\Components\Hidden::make('issuer_id')
+                                ->default(Auth::id()),
+                        ]),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     AppComponents\Forms\TimestampPlaceholder::make()
-                ])
+                ]),
+                Forms\Components\Section::make([
+                    TableRepeater\Components\TableRepeater::make('meta.payment_components')
+                        ->relationship('items')
+                        ->minItems(1)
+                        ->reorderable()
+                        ->headers([
+                            TableRepeater\Header::make('category'),
+                            TableRepeater\Header::make('name'),
+                            TableRepeater\Header::make('amount'),
+                        ])
+                        ->schema([
+                            Forms\Components\TextInput::make('category')
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('name')
+                                ->required()
+                                ->maxLength(255),
+                            Forms\Components\TextInput::make('amount')
+                                ->required()
+                                ->numeric()
+                                ->default(0),
+                        ])
+                        ->minItems(1)
+                        ->columns(3),
+                ]),
             ]);
     }
 
@@ -74,20 +92,17 @@ class RegistrantBillResource extends Resource
         return $table
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
-                Tables\Columns\TextColumn::make('wave.name')
+                Tables\Columns\TextColumn::make('registrant.user.name')
+                    ->label(__('Registrant'))
                     ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('registrant.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('category')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('sequence')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('items_sum_amount')
+                    ->label(__('Amount'))
+                    ->sum('items', 'amount')
+                    ->money('IDR')
                     ->sortable(),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()

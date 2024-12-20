@@ -2,8 +2,15 @@
 
 namespace App\Enums;
 
-enum PaymentMethod: string
+use Filament\Support\Contracts\HasLabel;
+
+enum PaymentMethod: string implements HasLabel
 {
-    case CASH = 'cash';
-    case TRANSFER = 'transfer';
+    case Cash = 'cash';
+    case Transfer = 'transfer';
+
+    public function getLabel(): ?string
+    {
+        return __($this->name);
+    }
 }

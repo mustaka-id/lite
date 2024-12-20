@@ -44,8 +44,16 @@ return new class extends Migration
 
         Schema::create('adm_registrant_bills', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Wave::class)->constrained(app(Wave::class)->getTable())->cascadeOnUpdate();
             $table->foreignIdFor(Registrant::class)->constrained(app(Registrant::class)->getTable())->cascadeOnUpdate();
+            $table->string('name');
+            $table->json('meta')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+        Schema::create('adm_registrant_bill_items', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(RegistrantBill::class, 'bill_id')->constrained(app(RegistrantBill::class)->getTable())->cascadeOnUpdate();
             $table->string('category')->nullable();
             $table->string('sequence');
             $table->string('name');
