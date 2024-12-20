@@ -19,7 +19,9 @@ class EmployeeResource extends Resource
 {
     protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationGroup(): ?string
     {
@@ -55,7 +57,8 @@ class EmployeeResource extends Resource
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([
-                        Forms\Components\DateTimePicker::make('joined_at'),
+                        Forms\Components\DateTimePicker::make('joined_at')
+                            ->default(now()),
                     ]),
                     AppComponents\Forms\TimestampPlaceholder::make()
                 ])

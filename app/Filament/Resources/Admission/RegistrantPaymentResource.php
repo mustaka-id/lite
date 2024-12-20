@@ -19,7 +19,9 @@ class RegistrantPaymentResource extends Resource
 {
     protected static ?string $model = RegistrantPayment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-banknotes';
+
+    protected static ?int $navigationSort = 4;
 
     public static function getNavigationGroup(): ?string
     {

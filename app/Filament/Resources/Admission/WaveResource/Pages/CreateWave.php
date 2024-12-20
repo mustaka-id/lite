@@ -9,4 +9,9 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateWave extends CreateRecord
 {
     protected static string $resource = WaveResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->previousUrl ?? $this->getResource()::getUrl('index');
+    }
 }

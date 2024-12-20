@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Actions;
+use Filament\Navigation\NavigationGroup;
 use Filament\Tables;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -70,6 +71,11 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->navigationGroups([
+                __('Management'),
+                __('Admission'),
+                __('System'),
             ]);
     }
 
