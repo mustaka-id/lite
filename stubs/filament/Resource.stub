@@ -46,7 +46,7 @@ class {{ resourceClass }} extends Resource
         return $table
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
-{{ tableColumns }},
+{{ tableColumns }}
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()
             ])

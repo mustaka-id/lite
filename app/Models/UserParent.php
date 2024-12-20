@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\Parentship\ParentType;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -13,13 +12,13 @@ class UserParent extends Pivot
     protected $fillable = [
         'type',
         'user_id',
-        'parent_id'
+        'parent_id',
     ];
 
     protected function casts(): array
     {
         return [
-            'type' => ParentType::class
+            'type' => ParentType::class,
         ];
     }
 
