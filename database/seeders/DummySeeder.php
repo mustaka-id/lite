@@ -3,11 +3,15 @@
 namespace Database\Seeders;
 
 use App\Models\Admission\Registrant;
+use App\Models\Admission\RegistrantBillItem;
+use App\Models\Admission\RegistrantPayment;
 use App\Models\Employee;
 use App\Models\Student;
 use App\Models\Year;
+use Faker\Provider\ar_EG\Payment;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Arr;
 
 class DummySeeder extends Seeder
 {
@@ -35,7 +39,30 @@ class DummySeeder extends Seeder
                 ],
             ]);
 
-            Registrant::factory(25)->create();
+            Registrant::factory(25)->create()->each(function ($registrant) {
+                if (count($registrant->wave->meta['payment_components']))
+                    if ($bill = $registrant->bills()->create([
+                        'name' => "Pembayaran PSB {$registrant->wave->name}"
+                    ])) {
+                        $bill->items()->saveMany(Arr::map(
+                            $registrant->wave->meta['payment_components'],
+                            fn($component, $index) => new RegistrantBillItem([
+                                'sequence' => $index + 1,
+                                ...$component,
+                            ])
+                        ));
+
+                        if ($registrant->id % 2 === 0) {
+                            $amount = $bill->items()->sum('amount');
+                            RegistrantPayment::factory()->create([
+                                'registrant_id' => $registrant->id,
+                                'bill_id' => $bill->id,
+                                'payer_id' => $registrant->user_id,
+                                'amount' => fake()->randomElement([$amount / 2, $amount]),
+                            ]);
+                        }
+                    }
+            });
         }
     }
 
@@ -45,22 +72,22 @@ class DummySeeder extends Seeder
             [
                 'category' => 'Pesantren',
                 'name' => 'Biaya Pendaftaran',
-                'amount' => fake()->numberBetween(5, 50) * 10000,
+                'amount' => fake()->numberBetween(5, 100) * 10000,
             ],
             [
                 'category' => 'Pesantren',
                 'name' => 'Uang Gedung',
-                'amount' => fake()->numberBetween(5, 50) * 10000,
+                'amount' => fake()->numberBetween(5, 100) * 10000,
             ],
             [
                 'category' => 'Madrasah',
                 'name' => 'Biaya Ujian',
-                'amount' => fake()->numberBetween(5, 50) * 10000,
+                'amount' => fake()->numberBetween(5, 100) * 10000,
             ],
             [
                 'category' => 'Madrasah',
                 'name' => 'Osis',
-                'amount' => fake()->numberBetween(5, 50) * 10000,
+                'amount' => fake()->numberBetween(5, 100) * 10000,
             ],
         ];
     }
