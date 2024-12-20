@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\User;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,12 +14,42 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('nik')->nullable()->unique();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
+            $table->string('phone')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::create('user_profile', function (Blueprint $table) {
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('pob')->nullable();
+            $table->date('dob')->nullable();
+            $table->unsignedTinyInteger('sex')->nullable();
+            $table->string('nisn')->nullable()->unique();
+            $table->boolean('is_alive')->nullable()->default(true);
+            $table->unsignedTinyInteger('siblings_count')->nullable();
+            $table->unsignedTinyInteger('child_order')->nullable();
+            $table->string('religion')->nullable();
+            $table->string('aspiration')->nullable();
+            $table->string('last_education')->nullable();
+            $table->string('monthly_income')->nullable();
+            $table->string('nationality')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('user_parent', function (Blueprint $table) {
+            $table->id();
+            $table->string('type');
+            $table->foreignIdFor(User::class)->constrained(app(User::class)->getTable());
+            $table->foreignIdFor(User::class, 'parent_id')->constrained(app(User::class)->getTable());
+            $table->timestamps();
+
+            $table->unique(['type', 'user_id', 'parent_id']);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -42,8 +73,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('user_parent');
+        Schema::dropIfExists('user_profile');
+        Schema::dropIfExists('users');
     }
 };
