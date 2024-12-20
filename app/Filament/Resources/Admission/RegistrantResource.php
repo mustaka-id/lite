@@ -6,6 +6,7 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Admission\RegistrantResource\Pages;
 use App\Filament\Resources\Admission\RegistrantResource\RelationManagers;
 use App\Models\Admission\Registrant;
+use App\Models\Admission\Wave;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrantResource extends Resource
 {
@@ -42,24 +44,33 @@ class RegistrantResource extends Resource
                         Forms\Components\Select::make('wave_id')
                             ->relationship('wave', 'name')
                             ->required()
-                            ->preload(),
+                            ->preload()
+                            ->searchable()
+                            ->default(Wave::latest()->first()->id),
                         Forms\Components\Select::make('user_id')
                             ->relationship('user', 'name')
                             ->required()
-                            ->preload(),
+                            ->preload()
+                            ->searchable(),
                         Forms\Components\Select::make('registered_by')
                             ->relationship('registeredBy', 'name')
-                            ->preload(),
+                            ->default(Auth::id())
+                            ->preload()
+                            ->searchable(),
                     ]),
-                    Forms\Components\Section::make([
-                        Forms\Components\Textarea::make('content'),
-                        Forms\Components\Hidden::make('issuer_id')
-                            ->default(auth()->id()),
-                    ])->relationship('note')
+                    Forms\Components\Section::make()
+                        ->relationship('note', fn(callable $get) => strlen($get('note.content')) > 0)
+                        ->schema([
+                            Forms\Components\Textarea::make('content')
+                                ->label(__('Note')),
+                            Forms\Components\Hidden::make('issuer_id')
+                                ->default(Auth::id()),
+                        ])
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([
-                        Forms\Components\DateTimePicker::make('registered_at'),
+                        Forms\Components\DateTimePicker::make('registered_at')
+                            ->default(now()),
                         Forms\Components\DateTimePicker::make('verified_at'),
                         Forms\Components\DateTimePicker::make('validated_at'),
                         Forms\Components\DateTimePicker::make('paid_off_at'),

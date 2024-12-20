@@ -6,6 +6,7 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Admission\WaveResource\Pages;
 use App\Filament\Resources\Admission\WaveResource\RelationManagers;
 use App\Models\Admission\Wave;
+use Awcodes\TableRepeater;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -42,17 +43,25 @@ class WaveResource extends Resource
                         Forms\Components\Select::make('year_id')
                             ->relationship('year', 'name')
                             ->required()
-                            ->preload(),
+                            ->preload()
+                            ->searchable(),
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
                     ]),
                     Forms\Components\Section::make([
-                        Forms\Components\Repeater::make('meta.payment_components')
+                        TableRepeater\Components\TableRepeater::make('meta.payment_components')
+                            ->headers([
+                                TableRepeater\Header::make('category'),
+                                TableRepeater\Header::make('name'),
+                                TableRepeater\Header::make('amount'),
+                            ])
                             ->schema([
+                                Forms\Components\TextInput::make('category')
+                                    ->required()
+                                    ->maxLength(255),
                                 Forms\Components\TextInput::make('name')
                                     ->required()
-                                    ->columnSpan(['lg' => 2])
                                     ->maxLength(255),
                                 Forms\Components\TextInput::make('amount')
                                     ->required()

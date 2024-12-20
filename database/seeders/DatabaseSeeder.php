@@ -37,12 +37,24 @@ class DatabaseSeeder extends Seeder
             'meta' => [
                 'payment_components' => [
                     [
+                        'category' => 'Pesantren',
                         'name' => 'Biaya Pendaftaran',
                         'amount' => 100000,
                     ],
                     [
+                        'category' => 'Pesantren',
+                        'name' => 'Uang Gedung',
+                        'amount' => 100000,
+                    ],
+                    [
+                        'category' => 'Madrasah',
                         'name' => 'Biaya Ujian',
                         'amount' => 200000,
+                    ],
+                    [
+                        'category' => 'Madrasah',
+                        'name' => 'Osis',
+                        'amount' => 50000,
                     ],
                 ],
             ],

@@ -44,7 +44,8 @@ class ClassroomResource extends Resource
                         Forms\Components\Select::make('year_id')
                             ->required()
                             ->relationship('year', 'name')
-                            ->preload(),
+                            ->preload()
+                            ->searchable(),
                         Forms\Components\Select::make('grade')
                             ->required()
                             ->preload()
@@ -63,7 +64,8 @@ class ClassroomResource extends Resource
                             ->numeric(),
                         Forms\Components\Select::make('homeroom_id')
                             ->relationship('homeroom', 'name')
-                            ->preload(),
+                            ->preload()
+                            ->searchable(),
                     ]))->columns(2),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,17 +42,17 @@ class Registrant extends Model
 
     public function wave(): BelongsTo
     {
-        return $this->belongsTo(Wave::class);
+        return $this->belongsTo(Wave::class)->withDefault();
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function registeredBy(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'registered_by');
+        return $this->belongsTo(User::class, 'registered_by')->withDefault();;
     }
 
     public function bills(): HasMany
@@ -62,5 +63,10 @@ class Registrant extends Model
     public function note(): MorphOne
     {
         return $this->morphOne(Note::class, 'noteable');
+    }
+
+    public function notes(): MorphMany
+    {
+        return $this->morphMany(Note::class, 'noteable');
     }
 }

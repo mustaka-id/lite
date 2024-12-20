@@ -50,7 +50,7 @@ class RegistrantBill extends Model
 
     public function buildSortQuery()
     {
-        return static::query()->where('registrant_id', $this->registrant_id)->where('category', $this->category);
+        return static::query()->where('registrant_id', $this->registrant_id);
     }
 
     public function note(): MorphOne

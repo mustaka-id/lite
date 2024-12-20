@@ -2,7 +2,9 @@
 
 namespace App\Enums\Support;
 
-enum GradeLevel: int
+use Filament\Support\Contracts\HasLabel;
+
+enum GradeLevel: int implements HasLabel
 {
     case I = 1;
     case II = 2;
@@ -16,4 +18,9 @@ enum GradeLevel: int
     case X = 10;
     case XI = 11;
     case XII = 12;
+
+    public function getLabel(): ?string
+    {
+        return $this->name;
+    }
 }
