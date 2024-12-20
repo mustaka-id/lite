@@ -3,11 +3,15 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "keywords": [
+        "laravel",
+        "framework"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
         "awcodes/filament-table-repeater": "^3.1",
+        "devaslanphp/auto-translate": "^1.0",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
         "laravel/framework": "^11.31",
@@ -15,6 +19,7 @@
         "spatie/eloquent-sortable": "^4.4"
     },
     "require-dev": {
+        "amirami/localizator": "^0.13.0@alpha",
         "fakerphp/faker": "^1.23",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
@@ -59,7 +64,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "amirami/localizator"
+            ]
         }
     },
     "config": {
