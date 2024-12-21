@@ -1,4 +1,3 @@
-<div>
+<div class="h-full">
     @include('components.homepage.hero')
-    @include('components.homepage.features')
 </div>

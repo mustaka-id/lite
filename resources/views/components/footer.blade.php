@@ -1,4 +1,4 @@
-<footer class="p-4 bg-white md:p-8 lg:p-10 dark:bg-gray-800">
+<footer class="p-4 md:p-8 lg:p-10 dark:bg-gray-900">
     <div class="max-w-screen-xl mx-auto text-center">
         <a href="#" class="flex items-center justify-center text-2xl font-semibold text-gray-900 dark:text-white">
             <svg class="h-8 mr-2" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,30 +53,22 @@
             </svg>
             Flowbite
         </a>
-        <p class="my-6 text-gray-500 dark:text-gray-400">Open-source library of over 400+ web components and interactive elements built for better web.</p>
-        <ul class="flex flex-wrap items-center justify-center mb-6 text-gray-900 dark:text-white">
+        <p class="my-6 text-gray-500 dark:text-gray-400">Jl. Bulus Tempel, Bulus I, Candibinangun, Pakem, Sleman, Daerah Istimewa Yogyakarta 55582</p>
+        <ul class="flex flex-wrap items-center justify-center mb-6 space-x-4 text-gray-900 dark:text-white lg:space-x-8">
             <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+                <a href="mailto:ma.ihsaniyya@gmail.com" target="_blank" class="hover:underline ">Email</a>
             </li>
             <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Premium</a>
+                <a href="https://wa.me/62823329528670" target="_blank" class="hover:underline">Telepon</a>
+            </li>
+            <li class="text-gray-400 dark:text-gray-600"> | </li>
+            <li>
+                <a href="{{ route('filament.admission.auth.login') }}" class="hover:underline">Login</a>
             </li>
             <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6 ">Campaigns</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Blog</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Affiliate Program</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">FAQs</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4 hover:underline md:mr-6">Contact</a>
+                <a href="{{ route('filament.admission.auth.register') }}" class="hover:underline">Daftar</a>
             </li>
         </ul>
-        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2021-2022 <a href="#" class="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
+        <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#" class="hover:underline">{{ config('app.name') }}</a>. All Rights Reserved.</span>
     </div>
 </footer>
