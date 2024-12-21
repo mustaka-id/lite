@@ -27,7 +27,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->id('admission')
             ->path('psb')
             ->login()
-            ->profile()
+            ->profile(Pages\Profile::class, isSimple: false)
             ->registration(Pages\Register::class)
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
@@ -39,7 +39,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->maxContentWidth(MaxWidth::Full)
             ->font('Onest')
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Admission/Resources'), for: 'App\\Filament\\Admission\\Resources')
             ->discoverPages(in: app_path('Filament/Admission/Pages'), for: 'App\\Filament\\Admission\\Pages')

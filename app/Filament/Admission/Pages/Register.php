@@ -17,7 +17,7 @@ class Register extends Page
         return $form->schema([
             Forms\Components\Select::make('wave_id')
                 ->label('Wave')
-                ->options(Wave::opened()->pluck('name', 'id'))
+                ->options(Wave::opened()->get()->mapWithKeys(fn($wave) => [$wave->id => "{$wave->year->name} - {$wave->name}"]))
                 ->required(),
             $this->getNameFormComponent(),
             $this->getEmailFormComponent(),
