@@ -42,6 +42,8 @@ return new class extends Migration
             $table->string('monthly_income')->nullable();
             $table->string('nationality')->nullable();
             $table->timestamps();
+
+            $table->primary('user_id');
         });
 
         Schema::create('user_parent', function (Blueprint $table) {

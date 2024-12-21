@@ -27,7 +27,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->id('admission')
             ->path('psb')
             ->login()
-            ->profile(Pages\Profile::class, isSimple: false)
+            ->profile(Pages\Account::class, isSimple: false)
             ->registration(Pages\Register::class)
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
