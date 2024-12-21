@@ -39,9 +39,22 @@ class UserProfileForm
     {
         return Forms\Components\TextInput::make($name)
             ->numeric()
-            ->required()
             ->label('NISN')
-            ->hint(fn($state) => 'Min 10 digits. (' . strlen($state) . ' digits.)');
+            ->live()
+            ->hint(fn($state) => strlen($state) . '/10')
+            ->length(10)
+            ->maxLength(10);
+    }
+
+    public static function getKKNumberField($name = 'kk_number'): Forms\Components\TextInput
+    {
+        return Forms\Components\TextInput::make($name)
+            ->numeric()
+            ->label('KK Number')
+            ->live()
+            ->hint(fn($state) => strlen($state) . '/16')
+            ->length(16)
+            ->maxLength(16);
     }
 
     public static function getIsAliveField($name = 'is_alive'): Forms\Components\ToggleButtons

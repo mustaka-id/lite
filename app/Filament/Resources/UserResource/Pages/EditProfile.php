@@ -31,6 +31,7 @@ class EditProfile extends EditRecord
                         ->schema([
                             UserProfileForm::getSexField(),
                             UserProfileForm::getNisnField(),
+                            UserProfileForm::getKKNumberField(),
                             UserProfileForm::getPobField(),
                             UserProfileForm::getDobField(),
                             UserProfileForm::getReligionField(),

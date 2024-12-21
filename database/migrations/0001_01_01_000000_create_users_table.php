@@ -32,6 +32,7 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->unsignedTinyInteger('sex')->nullable();
             $table->string('nisn')->nullable()->unique();
+            $table->string('kk_number')->nullable();
             $table->boolean('is_alive')->nullable()->default(true);
             $table->unsignedTinyInteger('siblings_count')->nullable();
             $table->unsignedTinyInteger('child_order')->nullable();

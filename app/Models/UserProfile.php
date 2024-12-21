@@ -19,6 +19,7 @@ class UserProfile extends Model
         'dob',
         'sex',
         'nisn',
+        'kk_number',
         'is_alive',
         'siblings_count',
         'child_order',
