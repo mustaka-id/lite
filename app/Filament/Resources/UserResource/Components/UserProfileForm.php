@@ -73,13 +73,15 @@ class UserProfileForm
     public static function getSiblingsCountField($name = 'siblings_count'): Forms\Components\TextInput
     {
         return Forms\Components\TextInput::make($name)
-            ->numeric();
+            ->numeric()
+            ->maxLength(1);
     }
 
     public static function getChildOrderField($name = 'child_order'): Forms\Components\TextInput
     {
         return Forms\Components\TextInput::make($name)
-            ->numeric();
+            ->numeric()
+            ->maxLength(1);
     }
 
     public static function getReligionField($name = 'religion'): Forms\Components\Select
