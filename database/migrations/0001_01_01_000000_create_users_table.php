@@ -38,7 +38,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('child_order')->nullable();
             $table->string('religion')->nullable();
             $table->string('aspiration')->nullable();
-            $table->string('last_education')->nullable();
+            $table->string('last_education_grade')->nullable();
             $table->string('monthly_income')->nullable();
             $table->string('nationality')->nullable();
             $table->timestamps();
@@ -52,6 +52,27 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique(['type', 'user_id', 'parent_id']);
+        });
+
+        Schema::create('user_educations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)->constrained(app(User::class)->getTable());
+            $table->string('grade');
+            $table->string('name');
+            $table->string('npsn')->nullable();
+            $table->string('certificate')->nullable();
+            $table->string('certificate_number')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('user_files', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(User::class)->constrained(app(User::class)->getTable());
+            $table->string('category')->nullable();
+            $table->string('name');
+            $table->string('path');
+            $table->softDeletes();
+            $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

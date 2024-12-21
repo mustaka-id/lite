@@ -35,7 +35,8 @@ class DummySeeder extends Seeder
                 'opened_at' => now(),
                 'closed_at' => now()->addMonth(10),
                 'meta' => [
-                    'payment_components' => $this->getComponents(),
+                    'payment_components' => $this->getPaymentComponents(),
+                    'files' => $this->getAdmissionFiles(),
                 ],
             ]);
 
@@ -66,7 +67,23 @@ class DummySeeder extends Seeder
         }
     }
 
-    private function getComponents(): array
+    private function getAdmissionFiles(): array
+    {
+        return [
+            [
+                'category' => 'user',
+                'name' => 'Kartu Keluarga',
+                'required' => true,
+            ],
+            [
+                'category' => 'user',
+                'name' => 'KTP',
+                'required' => true,
+            ],
+        ];
+    }
+
+    private function getPaymentComponents(): array
     {
         return [
             [

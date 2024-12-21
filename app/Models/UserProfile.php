@@ -18,6 +18,7 @@ class UserProfile extends Model
         'pob',
         'dob',
         'sex',
+        'blood_type',
         'nisn',
         'kk_number',
         'is_alive',
@@ -25,9 +26,9 @@ class UserProfile extends Model
         'child_order',
         'religion',
         'aspiration',
-        'last_education',
         'monthly_income',
-        'nationality'
+        'nationality',
+        'meta'
     ];
 
     protected function casts(): array

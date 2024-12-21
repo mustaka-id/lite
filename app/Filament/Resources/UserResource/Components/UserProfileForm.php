@@ -95,7 +95,7 @@ class UserProfileForm
             ->splitKeys(['Tab', ',']);
     }
 
-    public static function getLastEducationField($name = 'last_education'): Forms\Components\Select
+    public static function getLastEducationField($name = 'last_education_grade'): Forms\Components\Select
     {
         return Forms\Components\Select::make($name)
             ->options(Grade::class);
