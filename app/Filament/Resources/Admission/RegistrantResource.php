@@ -9,6 +9,7 @@ use App\Models\Admission\Registrant;
 use App\Models\Admission\Wave;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Pages\Page;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -141,7 +142,18 @@ class RegistrantResource extends Resource
             'index' => Pages\ListRegistrants::route('/'),
             'create' => Pages\CreateRegistrant::route('/create'),
             'edit' => Pages\EditRegistrant::route('/{record}/edit'),
+            'edit-profile' => Pages\EditProfile::route('/{record}/edit-profile'),
+            'manage-files' => Pages\ManageUserFiles::route('/{record}/manage-files'),
         ];
+    }
+
+    public static function getRecordSubNavigation(Page $page): array
+    {
+        return $page->generateNavigationItems([
+            Pages\EditRegistrant::class,
+            Pages\EditProfile::class,
+            Pages\ManageUserFiles::class,
+        ]);
     }
 
     public static function getEloquentQuery(): Builder

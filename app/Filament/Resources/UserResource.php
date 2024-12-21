@@ -96,6 +96,7 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
             'edit.credential' => Pages\EditCredential::route('/{record}/credential'),
             'edit.profile' => Pages\EditProfile::route('/{record}/profile'),
+            'manage.files' => Pages\ManageUserFiles::route('/{record}/files'),
         ];
     }
 
@@ -105,6 +106,7 @@ class UserResource extends Resource
             Pages\EditUser::class,
             Pages\EditCredential::class,
             Pages\EditProfile::class,
+            Pages\ManageUserFiles::class,
         ]);
     }
 

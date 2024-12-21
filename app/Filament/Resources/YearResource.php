@@ -6,6 +6,7 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Resources\YearResource\Pages;
 use App\Filament\Resources\YearResource\RelationManagers;
 use App\Models\Year;
+use Awcodes\TableRepeater;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -42,7 +43,21 @@ class YearResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                    ])
+                    ]),
+                    Forms\Components\Section::make([
+                        TableRepeater\Components\TableRepeater::make('periods')
+                            ->headers([
+                                TableRepeater\Header::make('name'),
+                            ])
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->relationship('periods')
+                            ->minItems(1)
+                            ->columns(3),
+                    ]),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     AppComponents\Forms\TimestampPlaceholder::make()
@@ -56,6 +71,9 @@ class YearResource extends Resource
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('periods.name')
+                    ->bulleted()
                     ->searchable(),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()

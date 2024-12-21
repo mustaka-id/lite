@@ -4,6 +4,7 @@ namespace App\Models\Admission;
 
 use App\Models\Support\Note;
 use App\Models\User;
+use App\Models\UserFile;
 use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -54,6 +55,11 @@ class Registrant extends Model
     public function profile(): BelongsTo
     {
         return $this->belongsTo(UserProfile::class, 'user_id', 'user_id')->withDefault();
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(UserFile::class, 'user_id', 'user_id');
     }
 
     public function registeredBy(): BelongsTo
