@@ -8,10 +8,13 @@ use Filament\Panel;
 use App\Models\Support\Address;
 use Illuminate\Support\Collection;
 use App\Enums\Parentship\ParentType;
+use App\Enums\UserRole;
+use App\Models\Admission\Registrant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
+use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -31,6 +34,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         'phone',
         'email',
         'password',
+        'roles'
     ];
 
     protected $hidden = [
@@ -43,12 +47,17 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'roles' => AsEnumCollection::of(UserRole::class)
         ];
     }
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return match ($panel->getId()) {
+            'admission' => $this->registrants()->count() > 0,
+            'admin' => count($this->roles ?? []) > 0,
+            default => false,
+        };
     }
 
     public function getTenants(Panel $panel): array | Collection
@@ -116,5 +125,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     public function employee(): HasOne
     {
         return $this->employees()->one()->latestOfMany();
+    }
+
+    public function registrants(): HasMany
+    {
+        return $this->hasMany(Registrant::class);
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 return [
+    Amirami\Localizator\ServiceProvider::class,
     App\Providers\AppServiceProvider::class,
     App\Providers\Filament\AdminPanelProvider::class,
-    \Amirami\Localizator\ServiceProvider::class,
-    \Devaslanphp\AutoTranslate\AutoTranslateProvider::class,
-
+    App\Providers\Filament\AdmissionPanelProvider::class,
+    Devaslanphp\AutoTranslate\AutoTranslateProvider::class,
 ];

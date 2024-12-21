@@ -15,7 +15,7 @@ class CreateRegistrant extends CreateRecord
 
     protected function afterCreate(): void
     {
-        if (count($this->record->wave->meta['payment_components']))
+        if (isset($this->record->wave->meta['payment_components']) && count($this->record->wave->meta['payment_components']))
             if ($bill = $this->record->bills()->create([
                 'name' => "Pembayaran PSB {$this->record->wave->name}"
             ]))

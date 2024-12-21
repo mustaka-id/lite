@@ -3,6 +3,7 @@
 namespace App\Models\Admission;
 
 use App\Models\Year;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,5 +46,12 @@ class Wave extends Model
     public function year(): BelongsTo
     {
         return $this->belongsTo(Year::class);
+    }
+
+    public function scopeOpened($query): Builder
+    {
+        return $query->where('opened_at', '<=', now())->where(function ($query) {
+            $query->where('closed_at', '>=', now())->orWhereNull('closed_at');
+        });
     }
 }
