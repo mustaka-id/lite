@@ -142,6 +142,9 @@ class RegistrantResource extends Resource
             'index' => Pages\ListRegistrants::route('/'),
             'create' => Pages\CreateRegistrant::route('/create'),
             'edit' => Pages\EditRegistrant::route('/{record}/edit'),
+            'edit-father' => Pages\EditFather::route('/{record}/edit-father'),
+            'edit-mother' => Pages\EditMother::route('/{record}/edit-mother'),
+            'edit-trustee' => Pages\EditTrustee::route('/{record}/edit-trustee'),
             'edit-profile' => Pages\EditProfile::route('/{record}/edit-profile'),
             'manage-files' => Pages\ManageUserFiles::route('/{record}/manage-files'),
         ];
@@ -152,6 +155,9 @@ class RegistrantResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditRegistrant::class,
             Pages\EditProfile::class,
+            Pages\EditFather::class,
+            Pages\EditMother::class,
+            Pages\EditTrustee::class,
             Pages\ManageUserFiles::class,
         ]);
     }

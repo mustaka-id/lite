@@ -10,12 +10,10 @@ use Illuminate\Support\Collection;
 use App\Enums\Parentship\ParentType;
 use App\Enums\UserRole;
 use App\Models\Admission\Registrant;
-use App\Observers\UserObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -26,7 +24,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements FilamentUser, HasTenants
 {
     use HasFactory, Notifiable, SoftDeletes;
@@ -85,7 +82,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
 
     public function profile(): HasOne
     {
-        return $this->hasOne(UserProfile::class, 'user_id')->withDefault();
+        return $this->hasOne(UserProfile::class, 'user_id');
     }
 
     public function parents(): HasMany
@@ -133,5 +130,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     public function registrants(): HasMany
     {
         return $this->hasMany(Registrant::class);
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(UserFile::class);
     }
 }
