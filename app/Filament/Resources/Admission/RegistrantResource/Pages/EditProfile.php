@@ -13,6 +13,7 @@ use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
 use App\Filament\Resources\Support\AddressResource\Components\AddressableForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use Filament\Forms\Components\Hidden;
 
 class EditProfile extends EditRecord
 {
@@ -30,6 +31,8 @@ class EditProfile extends EditRecord
                     Forms\Components\Section::make('Profile')
                         ->relationship('profile')
                         ->schema([
+                            Hidden::make('user_id')
+                                ->default(fn() => $this->record->user->id),
                             UserProfileForm::getSexField(),
                             UserProfileForm::getBloodTypeField(),
                             UserProfileForm::getPobField(),
