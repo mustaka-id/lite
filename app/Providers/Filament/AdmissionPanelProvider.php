@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Admission\Pages;
+use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -38,6 +39,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->maxContentWidth(MaxWidth::Full)
             ->font('Onest')
+            ->brandName('Portal PSB')
             ->colors([
                 'primary' => Color::Blue,
             ])
@@ -65,6 +67,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->defaultThemeMode(ThemeMode::Light);
     }
 }

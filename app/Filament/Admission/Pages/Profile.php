@@ -64,6 +64,7 @@ class Profile extends Page implements HasForms, HasActions
                             ->maxLength(15),
                         Forms\Components\TextInput::make('email')
                             ->email()
+                            ->disabled()
                             ->required()
                     ])->columns(3),
                     Forms\Components\Section::make()
