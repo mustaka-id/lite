@@ -2,8 +2,11 @@
 
 namespace App\Filament\Admission\Pages;
 
+use App\Models\Admission\Registrant;
+use App\Models\Admission\RegistrantBill;
 use App\Models\Admission\RegistrantBillItem;
 use App\Models\Admission\Wave;
+use App\Models\UserFile;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\Auth\Register as Page;
@@ -34,19 +37,37 @@ class Register extends Page
             'wave_id' => $data['wave_id'],
             'registered_at' => now(),
             'registered_by' => $user->id
-        ]))
-            if (isset($registrant->wave->meta['payment_components']) && count($registrant->wave->meta['payment_components']))
-                if ($bill = $registrant->bills()->create([
-                    'name' => "Pembayaran PSB {$registrant->wave->name}"
-                ]))
-                    $bill->items()->saveMany(Arr::map(
-                        $registrant->wave->meta['payment_components'],
-                        fn($component, $index) => new RegistrantBillItem([
-                            'sequence' => $index + 1,
-                            ...$component,
-                        ])
-                    ));
+        ])) {
+            $bill = static::assignBills($registrant);
+            static::assignFiles($registrant);
+        }
 
         return $user;
+    }
+
+    public static function assignBills(Registrant $registrant): RegistrantBill | null
+    {
+        if (isset($registrant->wave->meta['payment_components']) && count($registrant->wave->meta['payment_components']))
+            if ($bill = $registrant->bills()->create([
+                'name' => "Pembayaran PSB {$registrant->wave->name}"
+            ]))
+                $bill->items()->saveMany(Arr::map(
+                    $registrant->wave->meta['payment_components'],
+                    fn($component, $index) => new RegistrantBillItem([
+                        'sequence' => $index + 1,
+                        ...$component,
+                    ])
+                ));
+
+        return $bill ?? null;
+    }
+
+    public static function assignFiles(Registrant $registrant): void
+    {
+        if (isset($registrant->wave->meta['files']) && count($registrant->wave->meta['files']))
+            $registrant->files()->saveMany(Arr::map(
+                $registrant->wave->meta['files'],
+                fn($component, $index) => new UserFile($component)
+            ));
     }
 }
