@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BloodType;
 use App\Enums\Sex;
 use App\Enums\Religion;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,6 +38,7 @@ class UserProfile extends Model
             'dob' => 'datetime',
             'sex' => Sex::class,
             'religion' => Religion::class,
+            'blood_type' => BloodType::class,
             'is_alive' => 'boolean',
             'siblings_count' => 'integer',
             'child_order' => 'integer',

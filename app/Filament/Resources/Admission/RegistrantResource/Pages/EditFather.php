@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Admission\RegistrantResource\Pages;
 
+use App\Enums\Parentship\ParentType;
 use Filament\Forms;
 use Filament\Actions;
 use Filament\Forms\Form;
@@ -13,6 +14,8 @@ use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\User;
+use App\Models\UserParent;
 
 class EditFather extends EditRecord
 {
@@ -28,26 +31,31 @@ class EditFather extends EditRecord
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Group::make([
-                        Forms\Components\Section::make([
-                            UserForm::getNameField(),
-                            UserForm::getNikField(),
-                            UserForm::getPhoneField(),
-                            UserForm::getEmailField()
-                        ])->columns(2),
+                        Forms\Components\Select::make('type')
+                            ->options(ParentType::class)
+                            ->default(ParentType::Father)
+                            ->disabled()
+                            ->dehydrated(),
                         Forms\Components\Group::make([
+                            Forms\Components\Section::make([
+                                UserForm::getNameField(),
+                                UserForm::getNikField(),
+                                UserForm::getPhoneField(),
+                                UserForm::getEmailField()
+                            ])->columns(2),
                             Forms\Components\Section::make('Profile')
                                 ->relationship('profile')
                                 ->schema([
                                     UserProfileForm::getSexField(),
+                                    UserProfileForm::getBloodTypeField(),
                                     UserProfileForm::getKKNumberField(),
                                     UserProfileForm::getPobField(),
                                     UserProfileForm::getDobField(),
                                     UserProfileForm::getReligionField(),
-                                    UserProfileForm::getLastEducationField(),
                                     UserProfileForm::getNationalityField(),
                                     UserProfileForm::getIsAliveField(),
                                 ])->columns(2)
-                        ])->relationship('user')
+                        ])->relationship('user'),
                     ])->relationship('father')
                 ])->relationship('user')->columnSpanFull()
             ]);

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\UserResource\Components;
 
+use App\Enums\BloodType;
 use App\Enums\MonthlyIncome;
 use App\Enums\Religion;
 use App\Enums\Sex;
@@ -31,6 +32,14 @@ class UserProfileForm
     {
         return Forms\Components\Radio::make($name)
             ->options(Sex::class)
+            ->inline()
+            ->columnSpanFull();
+    }
+
+    public static function getBloodTypeField($name = 'blood_type'): Forms\Components\Radio
+    {
+        return Forms\Components\Radio::make($name)
+            ->options(BloodType::class)
             ->inline()
             ->columnSpanFull();
     }
