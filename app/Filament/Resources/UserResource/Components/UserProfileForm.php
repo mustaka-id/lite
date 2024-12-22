@@ -96,7 +96,8 @@ class UserProfileForm
     public static function getReligionField($name = 'religion'): Forms\Components\Select
     {
         return Forms\Components\Select::make($name)
-            ->options(Religion::class);
+            ->options(Religion::class)
+            ->default(Religion::Islam);
     }
 
     public static function getAspirationField($name = 'aspiration'): Forms\Components\TagsInput

@@ -20,9 +20,14 @@ class Father extends Page
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public function getParentType(): ParentType
+    {
+        return ParentType::Father;
+    }
+
     public function mount(): void
     {
-        $user = Auth::user()->father?->parent?->load('profile');
+        $user = Auth::user()->{$this->getParentType()->value}?->parent?->load('profile');
 
         $this->form->fill($user?->toArray());
     }
@@ -57,7 +62,7 @@ class Father extends Page
                         ->schema([
                             Forms\Components\Placeholder::make('updated_at')
                                 ->label('Last modified')
-                                ->content(fn(): string => Auth::user()?->father?->updated_at?->diffForHumans() ?? __('Not yet filled')),
+                                ->content(fn(): string => Auth::user()?->{$this->getParentType()->value}?->updated_at?->diffForHumans() ?? __('Not yet filled')),
                         ])
                 ])
             ])
@@ -70,7 +75,7 @@ class Father extends Page
 
         $form = $this->form->getState();
 
-        $father = User::updateOrCreate([
+        $parent = User::updateOrCreate([
             'nik' => $form['nik']
         ], Arr::only($form, [
             'name',
@@ -78,13 +83,13 @@ class Father extends Page
         ]));
 
         $form['profile']['sex'] = Sex::Male;
-        $father->profile()->updateOrCreate([], $form['profile'] ?? []);
+        $parent->profile()->updateOrCreate([], $form['profile'] ?? []);
 
-        $user->father()->updateOrCreate([
+        $user->{$this->getParentType()->value}()->updateOrCreate([
             'user_id' => $user->id,
-            'type' => ParentType::Father
+            'type' => $this->getParentType()
         ], [
-            'parent_id' => $father->id,
+            'parent_id' => $parent->id,
         ]);
 
         Notification::make()
