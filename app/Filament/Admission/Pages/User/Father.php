@@ -2,11 +2,16 @@
 
 namespace App\Filament\Admission\Pages\User;
 
+use App\Enums\Parentship\ParentType;
+use App\Enums\Sex;
 use App\Filament\Admission\Pages\Profile as Page;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class Father extends Page
@@ -17,7 +22,7 @@ class Father extends Page
 
     public function mount(): void
     {
-        $user = Auth::user()->father?->load('profile');
+        $user = Auth::user()->father?->parent?->load('profile');
 
         $this->form->fill($user?->toArray());
     }
@@ -33,13 +38,11 @@ class Father extends Page
                             ->columnSpanFull(),
                         UserForm::getNikField(),
                         UserForm::getPhoneField(),
-                        UserForm::getEmailField()
-                    ])->columns(3),
+                    ])->columns(2),
                     Forms\Components\Section::make()
                         ->statePath('profile')
                         ->columns(3)
                         ->schema([
-                            UserProfileForm::getSexField(),
                             UserProfileForm::getBloodTypeField(),
                             UserProfileForm::getKKNumberField(),
                             UserProfileForm::getPobField(),
@@ -59,5 +62,34 @@ class Father extends Page
                 ])
             ])
             ->statePath('data');
+    }
+
+    public function save(): void
+    {
+        $user = Auth::user();
+
+        $form = $this->form->getState();
+
+        $father = User::updateOrCreate([
+            'nik' => $form['nik']
+        ], Arr::only($form, [
+            'name',
+            'phone'
+        ]));
+
+        $form['profile']['sex'] = Sex::Male;
+        $father->profile()->updateOrCreate([], $form['profile'] ?? []);
+
+        $user->father()->updateOrCreate([
+            'user_id' => $user->id,
+            'type' => ParentType::Father
+        ], [
+            'parent_id' => $father->id,
+        ]);
+
+        Notification::make()
+            ->success()
+            ->title(__('filament-panels::resources/pages/edit-record.notifications.saved.title'))
+            ->send();
     }
 }
