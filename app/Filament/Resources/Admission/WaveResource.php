@@ -70,6 +70,23 @@ class WaveResource extends Resource
                             ->minItems(1)
                             ->columns(3),
                     ]),
+                    Forms\Components\Section::make([
+                        TableRepeater\Components\TableRepeater::make('meta.files')
+                            ->headers([
+                                TableRepeater\Header::make('category'),
+                                TableRepeater\Header::make('name'),
+                            ])
+                            ->schema([
+                                Forms\Components\TextInput::make('category')
+                                    ->required()
+                                    ->maxLength(255),
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255),
+                            ])
+                            ->minItems(1)
+                            ->columns(3),
+                    ]),
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([

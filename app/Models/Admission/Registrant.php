@@ -4,6 +4,7 @@ namespace App\Models\Admission;
 
 use App\Models\Support\Note;
 use App\Models\User;
+use App\Models\UserEducation;
 use App\Models\UserFile;
 use App\Models\UserProfile;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -60,6 +61,11 @@ class Registrant extends Model
     public function files(): HasMany
     {
         return $this->hasMany(UserFile::class, 'user_id', 'user_id');
+    }
+
+    public function educations(): HasMany
+    {
+        return $this->hasMany(UserEducation::class, 'user_id', 'user_id');
     }
 
     public function registeredBy(): BelongsTo
