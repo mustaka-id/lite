@@ -31,16 +31,17 @@ return new class extends Migration
             $table->string('pob')->nullable();
             $table->date('dob')->nullable();
             $table->unsignedTinyInteger('sex')->nullable();
+            $table->string('blood_type')->nullable();
             $table->string('nisn')->nullable()->unique();
             $table->string('kk_number')->nullable();
             $table->boolean('is_alive')->nullable()->default(true);
             $table->unsignedTinyInteger('siblings_count')->nullable();
             $table->unsignedTinyInteger('child_order')->nullable();
             $table->string('religion')->nullable();
-            $table->string('aspiration')->nullable();
-            $table->string('last_education_grade')->nullable();
+            $table->json('aspiration')->nullable();
             $table->string('monthly_income')->nullable();
             $table->string('nationality')->nullable();
+            $table->json('meta')->nullable();
             $table->timestamps();
 
             $table->primary('user_id');
