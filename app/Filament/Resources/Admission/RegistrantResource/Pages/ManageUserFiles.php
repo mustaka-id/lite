@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
 {
@@ -74,9 +75,10 @@ class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('path')
-                    ->icon('heroicon-o-document-text')
-                    ->formatStateUsing(fn(?Model $record): string => class_basename($record?->path_url))
-                    ->url(fn(?Model $record) => $record?->path_url)
+                    ->alignCenter()
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->getStateUsing(fn($record) => $record->path ? __('Download') : null)
+                    ->url(fn($record) => $record->path ? Storage::url($record->path) : null)
                     ->openUrlInNewTab(),
                 Tables\Columns\IconColumn::make('uploaded')
                     ->boolean()
