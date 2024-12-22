@@ -6,7 +6,6 @@ use App\Enums\Support\Grade;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserEducation extends Model
 {
