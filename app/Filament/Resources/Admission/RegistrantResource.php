@@ -5,12 +5,15 @@ namespace App\Filament\Resources\Admission;
 use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Admission\RegistrantResource\Pages;
 use App\Filament\Resources\Admission\RegistrantResource\RelationManagers;
+use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Models\Admission\Registrant;
 use App\Models\Admission\Wave;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -52,7 +55,12 @@ class RegistrantResource extends Resource
                             ->relationship('user', 'name')
                             ->required()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->createOptionForm([
+                                Forms\Components\Group::make(UserForm::createUserSimpleForm())->columns(2)
+                            ])
+                            ->createOptionAction(fn(Forms\Components\Actions\Action $action) => $action->modalWidth(MaxWidth::ExtraLarge))
+                            ->createOptionUsing(fn(array $data): int => User::create($data)->getKey()),
                         Forms\Components\Select::make('registered_by')
                             ->relationship('registeredBy', 'name')
                             ->default(Auth::id())
@@ -85,6 +93,7 @@ class RegistrantResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
                 Tables\Columns\TextColumn::make('wave.name')
@@ -147,6 +156,7 @@ class RegistrantResource extends Resource
             'edit-trustee' => Pages\EditTrustee::route('/{record}/edit-trustee'),
             'edit-profile' => Pages\EditProfile::route('/{record}/edit-profile'),
             'manage-files' => Pages\ManageUserFiles::route('/{record}/manage-files'),
+            'manage-educations' => Pages\ManageUserEducations::route('/{record}/manage-educations'),
         ];
     }
 
@@ -155,6 +165,7 @@ class RegistrantResource extends Resource
         return $page->generateNavigationItems([
             Pages\EditRegistrant::class,
             Pages\EditProfile::class,
+            Pages\ManageUserEducations::class,
             Pages\EditFather::class,
             Pages\EditMother::class,
             Pages\EditTrustee::class,

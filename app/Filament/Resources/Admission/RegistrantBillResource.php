@@ -38,6 +38,7 @@ class RegistrantBillResource extends Resource
     {
         return $form
             ->columns(3)
+            ->defaultSort('created_at', 'desc')
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([
