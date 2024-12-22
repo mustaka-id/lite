@@ -4,11 +4,7 @@ namespace App\Filament\Resources\Admission\RegistrantResource\Pages;
 
 use App\Enums\Parentship\ParentType;
 use Filament\Forms;
-use Filament\Actions;
 use Filament\Forms\Form;
-use App\Enums\User\ProfileSex;
-use App\Enums\User\ProfileReligion;
-use App\Enums\Tenancy\EducationDegree;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
@@ -31,11 +27,6 @@ class EditFather extends EditRecord
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Group::make([
-                        Forms\Components\Select::make('type')
-                            ->options(ParentType::class)
-                            ->default(ParentType::Father)
-                            ->disabled()
-                            ->dehydrated(),
                         Forms\Components\Group::make([
                             Forms\Components\Section::make([
                                 UserForm::getNameField(),
@@ -59,5 +50,27 @@ class EditFather extends EditRecord
                     ])->relationship('father')
                 ])->relationship('user')->columnSpanFull()
             ]);
+    }
+
+    public function beforeSave(): void
+    {
+        // Dapatkan model user terkait
+        $user = $this->record->user;
+
+        // Periksa apakah data father sudah ada
+        if (!$user->father) {
+            // Ambil data father dari form
+            $fatherData = $this->data['user']['father']['user'];
+
+            // Buat user baru untuk father
+            $fatherUser = User::create($fatherData);
+
+            // Simpan hubungan antara user dan father
+            $father = new UserParent();
+            $father->user_id = $user->id; // Gunakan ID user yang ada
+            $father->parent_id = $fatherUser->id; // Gunakan ID user father yang baru dibuat
+            $father->type = ParentType::Father;
+            $father->save();
+        }
     }
 }

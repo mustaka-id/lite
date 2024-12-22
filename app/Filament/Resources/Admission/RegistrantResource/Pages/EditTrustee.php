@@ -2,17 +2,16 @@
 
 namespace App\Filament\Resources\Admission\RegistrantResource\Pages;
 
+use App\Enums\Parentship\ParentType;
 use Filament\Forms;
-use Filament\Actions;
 use Filament\Forms\Form;
-use App\Enums\User\ProfileSex;
-use App\Enums\User\ProfileReligion;
-use App\Enums\Tenancy\EducationDegree;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\User;
+use App\Models\UserParent;
 
 class EditTrustee extends EditRecord
 {
@@ -28,28 +27,50 @@ class EditTrustee extends EditRecord
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Group::make([
-                        Forms\Components\Section::make([
-                            UserForm::getNameField(),
-                            UserForm::getNikField(),
-                            UserForm::getPhoneField(),
-                            UserForm::getEmailField()
-                        ])->columns(2),
                         Forms\Components\Group::make([
+                            Forms\Components\Section::make([
+                                UserForm::getNameField(),
+                                UserForm::getNikField(),
+                                UserForm::getPhoneField(),
+                                UserForm::getEmailField()
+                            ])->columns(2),
                             Forms\Components\Section::make('Profile')
                                 ->relationship('profile')
                                 ->schema([
                                     UserProfileForm::getSexField(),
+                                    UserProfileForm::getBloodTypeField(),
                                     UserProfileForm::getKKNumberField(),
                                     UserProfileForm::getPobField(),
                                     UserProfileForm::getDobField(),
                                     UserProfileForm::getReligionField(),
-                                    UserProfileForm::getLastEducationField(),
                                     UserProfileForm::getNationalityField(),
                                     UserProfileForm::getIsAliveField(),
                                 ])->columns(2)
-                        ])->relationship('user')
+                        ])->relationship('user'),
                     ])->relationship('trustee')
                 ])->relationship('user')->columnSpanFull()
             ]);
+    }
+
+    public function beforeSave(): void
+    {
+        // Dapatkan model user terkait
+        $user = $this->record->user;
+
+        // Periksa apakah data trustee sudah ada
+        if (!$user->trustee) {
+            // Ambil data trustee dari form
+            $trusteeData = $this->data['user']['trustee']['user'];
+
+            // Buat user baru untuk trustee
+            $trusteeUser = User::create($trusteeData);
+
+            // Simpan hubungan antara user dan trustee
+            $trustee = new UserParent();
+            $trustee->user_id = $user->id; // Gunakan ID user yang ada
+            $trustee->parent_id = $trusteeUser->id; // Gunakan ID user trustee yang baru dibuat
+            $trustee->type = ParentType::Trustee;
+            $trustee->save();
+        }
     }
 }

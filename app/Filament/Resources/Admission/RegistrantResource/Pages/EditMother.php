@@ -2,17 +2,16 @@
 
 namespace App\Filament\Resources\Admission\RegistrantResource\Pages;
 
+use App\Enums\Parentship\ParentType;
 use Filament\Forms;
-use Filament\Actions;
 use Filament\Forms\Form;
-use App\Enums\User\ProfileSex;
-use App\Enums\User\ProfileReligion;
-use App\Enums\Tenancy\EducationDegree;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\User;
+use App\Models\UserParent;
 
 class EditMother extends EditRecord
 {
@@ -28,28 +27,50 @@ class EditMother extends EditRecord
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Group::make([
-                        Forms\Components\Section::make([
-                            UserForm::getNameField(),
-                            UserForm::getNikField(),
-                            UserForm::getPhoneField(),
-                            UserForm::getEmailField()
-                        ])->columns(2),
                         Forms\Components\Group::make([
+                            Forms\Components\Section::make([
+                                UserForm::getNameField(),
+                                UserForm::getNikField(),
+                                UserForm::getPhoneField(),
+                                UserForm::getEmailField()
+                            ])->columns(2),
                             Forms\Components\Section::make('Profile')
                                 ->relationship('profile')
                                 ->schema([
                                     UserProfileForm::getSexField(),
+                                    UserProfileForm::getBloodTypeField(),
                                     UserProfileForm::getKKNumberField(),
                                     UserProfileForm::getPobField(),
                                     UserProfileForm::getDobField(),
                                     UserProfileForm::getReligionField(),
-                                    UserProfileForm::getLastEducationField(),
                                     UserProfileForm::getNationalityField(),
                                     UserProfileForm::getIsAliveField(),
                                 ])->columns(2)
-                        ])->relationship('user')
+                        ])->relationship('user'),
                     ])->relationship('mother')
                 ])->relationship('user')->columnSpanFull()
             ]);
+    }
+
+    public function beforeSave(): void
+    {
+        // Dapatkan model user terkait
+        $user = $this->record->user;
+
+        // Periksa apakah data Mother sudah ada
+        if (!$user->Mother) {
+            // Ambil data Mother dari form
+            $motherData = $this->data['user']['mother']['user'];
+
+            // Buat user baru untuk Mother
+            $motherUser = User::create($motherData);
+
+            // Simpan hubungan antara user dan Mother
+            $mother = new UserParent();
+            $mother->user_id = $user->id; // Gunakan ID user yang ada
+            $mother->parent_id = $motherUser->id; // Gunakan ID user Mother yang baru dibuat
+            $mother->type = ParentType::Mother;
+            $mother->save();
+        }
     }
 }
