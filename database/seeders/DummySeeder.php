@@ -6,8 +6,10 @@ use App\Filament\Admission\Pages\Register;
 use App\Models\Admission\Registrant;
 use App\Models\Admission\RegistrantBillItem;
 use App\Models\Admission\RegistrantPayment;
+use App\Models\Admission\Wave;
 use App\Models\Employee;
 use App\Models\Student;
+use App\Models\User;
 use App\Models\Year;
 use Faker\Provider\ar_EG\Payment;
 use Illuminate\Database\Seeder;
@@ -41,7 +43,12 @@ class DummySeeder extends Seeder
                 ],
             ]);
 
-            Registrant::factory(25)->create()->each(function ($registrant) {
+            $firstRegistrant = User::first()?->registrants()->create([
+                'wave_id' => Wave::first()->id,
+                'registered_at' => now()
+            ]);
+
+            Registrant::factory(25)->create()->push($firstRegistrant)->each(function ($registrant) {
                 $bill = Register::assignBills($registrant);
                 Register::assignFiles($registrant);
 
