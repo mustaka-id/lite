@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\Admission\RegistrantResource\Pages;
 
 use App\Enums\Parentship\ParentType;
+use App\Enums\Sex;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
+use App\Filament\Resources\Support\AddressResource\Components\AddressableForm;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
 use App\Models\User;
@@ -31,21 +33,22 @@ class EditMother extends EditRecord
                             Forms\Components\Section::make([
                                 UserForm::getNameField(),
                                 UserForm::getNikField(),
-                                UserForm::getPhoneField(),
-                                UserForm::getEmailField()
+                                UserForm::getPhoneField()
                             ])->columns(2),
                             Forms\Components\Section::make('Profile')
                                 ->relationship('profile')
                                 ->schema([
-                                    UserProfileForm::getSexField(),
+                                    UserProfileForm::getSexField()->hidden()->default(Sex::Female),
                                     UserProfileForm::getBloodTypeField(),
-                                    UserProfileForm::getKKNumberField(),
+                                    UserProfileForm::getKKNumberField()
+                                        ->default(fn() => $this->record->user->profile->kk_number ?? null),
                                     UserProfileForm::getPobField(),
                                     UserProfileForm::getDobField(),
                                     UserProfileForm::getReligionField(),
                                     UserProfileForm::getNationalityField(),
                                     UserProfileForm::getIsAliveField(),
-                                ])->columns(2)
+                                ])->columns(2),
+                            AddressableForm::make()
                         ])->relationship('user'),
                     ])->relationship('mother')
                 ])->relationship('user')->columnSpanFull()

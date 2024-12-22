@@ -8,6 +8,7 @@ use Filament\Forms\Form;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\Admission\RegistrantResource;
+use App\Filament\Resources\Support\AddressResource\Components\AddressableForm;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
 use App\Models\User;
@@ -45,7 +46,8 @@ class EditTrustee extends EditRecord
                                     UserProfileForm::getReligionField(),
                                     UserProfileForm::getNationalityField(),
                                     UserProfileForm::getIsAliveField(),
-                                ])->columns(2)
+                                ])->columns(2),
+                            AddressableForm::make()
                         ])->relationship('user'),
                     ])->relationship('trustee')
                 ])->relationship('user')->columnSpanFull()
