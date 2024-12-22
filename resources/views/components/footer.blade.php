@@ -1,4 +1,4 @@
-<footer class="p-4 md:p-8 lg:p-10 dark:bg-gray-900">
+<footer class="p-4 md:p-8 lg:p-10 bg-gray-50 dark:bg-gray-900">
     <div class="max-w-screen-xl mx-auto text-center">
         <a href="/" class="flex justify-center mx-auto text-start">
             @include('components.logo.full')

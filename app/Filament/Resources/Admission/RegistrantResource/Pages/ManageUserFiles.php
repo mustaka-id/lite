@@ -6,16 +6,21 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Resources\Recruitment\PoolResource;
 use App\Filament\Resources\Admission\RegistrantResource;
 use Filament\Actions;
+use Filament\Actions\CreateAction;
+use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Contracts\HasHeaderActions;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\ManageRelatedRecords;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ManageUserFiles extends ManageRelatedRecords
+class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
 {
     protected static string $resource = RegistrantResource::class;
 
@@ -27,6 +32,17 @@ class ManageUserFiles extends ManageRelatedRecords
     {
         return 'Files';
     }
+
+    public function getHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->label(__('Add new file'))
+                ->modalWidth(MaxWidth::Large)
+                ->form(fn(Form $form) => $this->form($form)),
+        ];
+    }
+
 
     public function form(Form $form): Form
     {
@@ -40,7 +56,7 @@ class ManageUserFiles extends ManageRelatedRecords
                     ->nullable()
                     ->directory('users')
                     ->columnSpanFull()
-                    ->acceptedFileTypes(['application/pdf', 'image/jpg', 'image/jpeg', 'image/png'])
+                    ->acceptedFileTypes(['application/pdf', 'image/*'])
                     ->maxSize(1024),
             ]);
     }
@@ -51,12 +67,6 @@ class ManageUserFiles extends ManageRelatedRecords
             ->recordTitleAttribute('path')
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
-                Tables\Columns\IconColumn::make('uploaded')
-                    ->label(__('Uploaded'))
-                    ->boolean()
-                    ->alignCenter()
-                    ->width(1)
-                    ->getStateUsing(fn(?Model $record) => filled($record?->path_url)),
                 Tables\Columns\TextColumn::make('category')
                     ->sortable()
                     ->searchable(),
@@ -64,16 +74,16 @@ class ManageUserFiles extends ManageRelatedRecords
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('path')
-                    ->label(__('Attachment'))
                     ->icon('heroicon-o-document-text')
                     ->formatStateUsing(fn(?Model $record): string => class_basename($record?->path_url))
                     ->url(fn(?Model $record) => $record?->path_url)
                     ->openUrlInNewTab(),
+                Tables\Columns\IconColumn::make('uploaded')
+                    ->boolean()
+                    ->alignCenter()
+                    ->width(1)
+                    ->getStateUsing(fn(?Model $record) => filled($record?->path_url)),
                 AppComponents\Columns\LastModifiedColumn::make()
-            ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make()
-                    ->label(__('Add new file')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

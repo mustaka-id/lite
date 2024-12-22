@@ -42,27 +42,27 @@ class DummySeeder extends Seeder
                     'files' => $this->getAdmissionFiles(),
                 ],
             ]);
-
-            $firstRegistrant = User::first()?->registrants()->create([
-                'wave_id' => Wave::first()->id,
-                'registered_at' => now()
-            ]);
-
-            Registrant::factory(25)->create()->push($firstRegistrant)->each(function ($registrant) {
-                $bill = Register::assignBills($registrant);
-                Register::assignFiles($registrant);
-
-                if ($registrant->id % 2 === 0) {
-                    $amount = $bill->items()->sum('amount');
-                    RegistrantPayment::factory()->create([
-                        'registrant_id' => $registrant->id,
-                        'bill_id' => $bill->id,
-                        'payer_id' => $registrant->user_id,
-                        'amount' => fake()->randomElement([$amount / 2, $amount]),
-                    ]);
-                }
-            });
         }
+
+        $firstRegistrant = User::first()?->registrants()->create([
+            'wave_id' => Wave::first()->id,
+            'registered_at' => now()
+        ]);
+
+        collect([$firstRegistrant])->merge(Registrant::factory(25)->create())->each(function ($registrant) {
+            $bill = Register::assignBills($registrant);
+            Register::assignFiles($registrant);
+
+            if ($registrant->id % 2 === 0) {
+                $amount = $bill->items()->sum('amount');
+                RegistrantPayment::factory()->create([
+                    'registrant_id' => $registrant->id,
+                    'bill_id' => $bill->id,
+                    'payer_id' => $registrant->user_id,
+                    'amount' => fake()->randomElement([$amount / 2, $amount]),
+                ]);
+            }
+        });
     }
 
     private function getAdmissionFiles(): array
