@@ -72,7 +72,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained(app(User::class)->getTable());
             $table->string('category')->nullable();
             $table->string('name');
-            $table->string('path');
+            $table->string('path')->nullable();
+            $table->boolean('required')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Filament\Admission\Pages\Register;
 use App\Models\Admission\Registrant;
 use App\Models\Admission\RegistrantBillItem;
 use App\Models\Admission\RegistrantPayment;
@@ -41,28 +42,18 @@ class DummySeeder extends Seeder
             ]);
 
             Registrant::factory(25)->create()->each(function ($registrant) {
-                if (count($registrant->wave->meta['payment_components']))
-                    if ($bill = $registrant->bills()->create([
-                        'name' => "Pembayaran PSB {$registrant->wave->name}"
-                    ])) {
-                        $bill->items()->saveMany(Arr::map(
-                            $registrant->wave->meta['payment_components'],
-                            fn($component, $index) => new RegistrantBillItem([
-                                'sequence' => $index + 1,
-                                ...$component,
-                            ])
-                        ));
+                $bill = Register::assignBills($registrant);
+                Register::assignFiles($registrant);
 
-                        if ($registrant->id % 2 === 0) {
-                            $amount = $bill->items()->sum('amount');
-                            RegistrantPayment::factory()->create([
-                                'registrant_id' => $registrant->id,
-                                'bill_id' => $bill->id,
-                                'payer_id' => $registrant->user_id,
-                                'amount' => fake()->randomElement([$amount / 2, $amount]),
-                            ]);
-                        }
-                    }
+                if ($registrant->id % 2 === 0) {
+                    $amount = $bill->items()->sum('amount');
+                    RegistrantPayment::factory()->create([
+                        'registrant_id' => $registrant->id,
+                        'bill_id' => $bill->id,
+                        'payer_id' => $registrant->user_id,
+                        'amount' => fake()->randomElement([$amount / 2, $amount]),
+                    ]);
+                }
             });
         }
     }
