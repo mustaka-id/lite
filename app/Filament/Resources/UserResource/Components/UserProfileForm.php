@@ -121,6 +121,7 @@ class UserProfileForm
     public static function getNationalityField($name = 'nationality'): Forms\Components\TextInput
     {
         return Forms\Components\TextInput::make($name)
-            ->maxLength(100);
+            ->maxLength(100)
+            ->default('Indonesia');
     }
 }

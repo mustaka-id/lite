@@ -3,6 +3,7 @@
 namespace App\Filament\Admission\Pages;
 
 use App\Filament\Components as AppComponents;
+use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
@@ -26,11 +27,18 @@ class Profile extends Page implements HasForms, HasActions
         configureAction as configureActionRecord;
     }
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
     protected static string $view = 'filament.admission.pages.profile';
 
     public ?array $data = [];
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('Data');
+    }
 
     public function mount(): void
     {
@@ -46,32 +54,18 @@ class Profile extends Page implements HasForms, HasActions
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([
-                        Forms\Components\TextInput::make('name')
-                            ->required()
-                            ->maxLength(100)
+                        UserForm::getNameField()
                             ->columnSpanFull(),
-                        Forms\Components\TextInput::make('nik')
-                            ->required()
-                            ->numeric()
-                            ->label('NIK')
-                            ->live()
-                            ->hint(fn($state) => strlen($state) . '/16')
-                            ->length(16)
-                            ->maxLength(16),
-                        Forms\Components\TextInput::make('phone')
-                            ->tel()
-                            ->required()
-                            ->maxLength(15),
-                        Forms\Components\TextInput::make('email')
-                            ->email()
-                            ->disabled()
-                            ->required()
+                        UserForm::getNikField(),
+                        UserForm::getPhoneField(),
+                        UserForm::getEmailField()
                     ])->columns(3),
                     Forms\Components\Section::make()
                         ->statePath('profile')
                         ->columns(3)
                         ->schema([
                             UserProfileForm::getSexField(),
+                            UserProfileForm::getBloodTypeField(),
                             UserProfileForm::getNisnField(),
                             UserProfileForm::getKKNumberField(),
                             UserProfileForm::getPobField(),
@@ -88,8 +82,6 @@ class Profile extends Page implements HasForms, HasActions
                 Forms\Components\Group::make([
                     Forms\Components\Section::make()
                         ->schema([
-                            Forms\Components\Placeholder::make('created_at')
-                                ->content(fn(): string => Auth::user()?->created_at->diffForHumans()),
                             Forms\Components\Placeholder::make('updated_at')
                                 ->label('Last modified')
                                 ->content(fn(): string => Auth::user()?->updated_at->diffForHumans()),

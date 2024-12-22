@@ -24,9 +24,11 @@ class UserFileResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-folder';
 
+    protected static ?int $navigationSort = 10;
+
     public static function getNavigationGroup(): ?string
     {
-        return __('Admission');
+        return __('Data');
     }
 
     public static function getModelLabel(): string

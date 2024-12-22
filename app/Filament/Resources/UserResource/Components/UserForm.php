@@ -46,7 +46,7 @@ class UserForm
             ->rules(['digits:16'])
             ->required()
             ->live(onBlur: true)
-            ->hint(fn($state) => 'Currently ' . strlen($state) . ' digits.');
+            ->hint(fn($state) => strlen($state) . '/16');
     }
 
     public static function getEmailField($name = 'email'): Forms\Components\TextInput
