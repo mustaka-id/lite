@@ -68,6 +68,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
                 Authenticate::class,
             ])
             ->defaultThemeMode(ThemeMode::Light)
-            ->viteTheme('resources/css/filament/admin/theme.css');
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->favicon(asset('/favicon.ico'));
     }
 }
