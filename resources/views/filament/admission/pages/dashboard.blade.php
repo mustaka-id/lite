@@ -1,6 +1,7 @@
 @php
 $total_bills_amount = $this->registrant->bills->pluck('items.*.amount')->flatten()->sum();
 $total_payments_amount = $this->registrant->payments->sum('amount');
+$remain = $total_bills_amount - $total_payments_amount;
 
 $completeness = $this->getCompleteness();
 $completeness_precentage = $completeness->where('value', true)->count() / $completeness->count() * 100;
@@ -17,17 +18,27 @@ $steps = $this->getSteps();
                                         ...$this->getWidgetData(),
                                     ]
                                 " :widgets="$this->getVisibleWidgets()" />
-            <x-filament::section icon="heroicon-o-exclamation-triangle" icon-color="danger">
+            <x-filament::section compact class="ring-primary-200 dark:ring-primary-800/60 bg-primary-50 dark:bg-primary-900/40 text-primary-700 dark:text-primary-400">
+                Untuk konfirmasi pembayaran, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold underline decoration-dotted text-primary-500">WhatsApp ini</a>
+            </x-filament::section>
+            <x-filament::section icon="heroicon-o-exclamation-triangle">
                 <x-slot name="heading">
                     Informasi
                 </x-slot>
-                <ul>
+                <ul class="space-y-4">
+                    @if($remain > 0)
                     <li class="space-y-2 border-gray-200 border-s-2 dark:border-gray-800 ps-4">
-                        <div>Anda memiliki tagihan yang belum dibayar sebesar {{ Number::currency($total_bills_amount, in: 'IDR', locale: 'id') }}</div>
+                        <div>Anda memiliki tagihan yang belum dibayar sebesar {{ Number::currency($remain, in: 'IDR', locale: 'id') }}</div>
                         <x-filament::section compact class="ring-danger-200 dark:ring-danger-800/60 bg-danger-50 dark:bg-danger-900/40 text-danger-700 dark:text-danger-400">
                             Silakan lakukan pembayaran ke Nomor Rekening: BRI <strong>2200 0100 0311 300</strong> a.n. Madrasah Aliyah Ihsaniyya.
                         </x-filament::section>
+                        <div class="text-gray-500 dark:text-gray-400">
+                            Untuk konfirmasi pembayaran, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold hover:underline text-primary-500">WhatsApp ini</a>
+                        </div>
                     </li>
+                    @else
+                    <li>Tidak ada informasi yang ditampilkan</li>
+                    @endif
                 </ul>
             </x-filament::section>
             <x-filament::section icon="heroicon-o-clock" class="overflow-y-auto">
