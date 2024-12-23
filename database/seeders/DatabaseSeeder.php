@@ -21,7 +21,9 @@ class DatabaseSeeder extends Seeder
             'roles' => [UserRole::SuperAdmin]
         ]);
 
-        if (!app()->isProduction())
+        if (app()->isProduction())
+            $this->call(MasayaSeeder::class);
+        else
             $this->call(DummySeeder::class);
     }
 }

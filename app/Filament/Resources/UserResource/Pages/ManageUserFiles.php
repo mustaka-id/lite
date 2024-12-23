@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ManageUserFiles extends ManageRelatedRecords
 {
@@ -64,10 +65,10 @@ class ManageUserFiles extends ManageRelatedRecords
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('path')
-                    ->label(__('Attachment'))
-                    ->icon('heroicon-o-document-text')
-                    ->formatStateUsing(fn(?Model $record): string => class_basename($record?->path_url))
-                    ->url(fn(?Model $record) => $record?->path_url)
+                    ->alignCenter()
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->getStateUsing(fn($record) => $record->path ? __('Download') : null)
+                    ->url(fn($record) => $record->path ? Storage::url($record->path) : null)
                     ->openUrlInNewTab(),
                 AppComponents\Columns\LastModifiedColumn::make()
             ])

@@ -53,6 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->favicon(asset('/favicon.ico'))
             ->pages([
                 Pages\Dashboard::class,
             ])

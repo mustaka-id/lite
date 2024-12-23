@@ -70,11 +70,7 @@ class UserProfileForm
     {
         return Forms\Components\ToggleButtons::make($name)
             ->boolean()
-            ->colors([
-                false => 'danger',
-                true => 'primary',
-            ])
-            ->label('Alive')
+            ->label('Is alive?')
             ->inline()
             ->default(true);
     }

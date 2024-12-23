@@ -52,7 +52,6 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ])
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -68,6 +67,8 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->defaultThemeMode(ThemeMode::Light);
+            ->defaultThemeMode(ThemeMode::Light)
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->favicon(asset('/favicon.ico'));
     }
 }
