@@ -26,7 +26,7 @@ class MasayaSeeder extends Seeder
 
         $wave = $year->waves()->create([
             'year_id' => $year->id,
-            'name' => "Gelombang {$i}",
+            'name' => "PSB {$year->name}/" . ($year->name + 1),
             'opened_at' => now(),
             'closed_at' => now()->addMonth(10),
             'meta' => [
