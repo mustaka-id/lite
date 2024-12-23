@@ -1,7 +1,11 @@
+@php
+$opened = $this->waves?->count() > 0;
+@endphp
+
 <section>
     <div class="max-w-screen-xl px-4 py-16 mx-auto text-center sm:py-28 lg:px-6">
         <a href="{{ route('filament.admission.auth.register') }}" class="inline-flex items-center justify-between px-1 py-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full mb-7 dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" role="alert">
-            <span class="text-xs bg-primary-600 rounded-full text-white px-4 py-1.5 mr-3">Dibuka</span> <span class="text-sm font-medium">Pendaftaran Santri Baru</span>
+            <span @class(["text-xs rounded-full text-white px-4 py-1.5 mr-3", $opened ? 'bg-primary-600' : 'bg-red-500' ])>{{ $opened ? 'Dibuka' : 'Ditutup' }}</span> <span class="text-sm font-medium">Pendaftaran Santri Baru</span>
             <x-heroicon-o-chevron-right class="w-5 h-5 ml-2" />
         </a>
         <h1 class="mb-4 text-5xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Facing the Future without <br />Breaking Tradition</h1>

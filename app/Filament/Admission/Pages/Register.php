@@ -15,18 +15,27 @@ use Illuminate\Support\Arr;
 
 class Register extends Page
 {
+    public $waves;
+
+    protected function beforeFill(): void
+    {
+        $this->waves = Wave::opened()->get();
+    }
+
     public function form(Form $form): Form
     {
-        return $form->schema([
-            Forms\Components\Select::make('wave_id')
-                ->label('Wave')
-                ->options(Wave::opened()->pluck('name', 'id'))
-                ->required(),
-            $this->getNameFormComponent(),
-            $this->getEmailFormComponent(),
-            $this->getPasswordFormComponent(),
-            $this->getPasswordConfirmationFormComponent(),
-        ]);
+        return $form
+            ->disabled($this->waves->count() == 0)
+            ->schema([
+                Forms\Components\Select::make('wave_id')
+                    ->label('Wave')
+                    ->options($this->waves->pluck('name', 'id'))
+                    ->required(),
+                $this->getNameFormComponent(),
+                $this->getEmailFormComponent(),
+                $this->getPasswordFormComponent(),
+                $this->getPasswordConfirmationFormComponent(),
+            ]);
     }
 
     protected function handleRegistration(array $data): Model
