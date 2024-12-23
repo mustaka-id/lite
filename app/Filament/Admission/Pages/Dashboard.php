@@ -25,6 +25,32 @@ class Dashboard extends Page
         $this->registrant = $this->user->registrants()?->with('bills.items', 'payments')->first();
     }
 
+    public function getSteps(): Collection
+    {
+        return collect([
+            [
+                "label" => 'Terdaftar',
+                "value" => $this->registrant->registered_at,
+            ],
+            [
+                "label" => 'Terverifikasi',
+                "value" => $this->registrant->verified_at,
+            ],
+            [
+                "label" => 'Data valid',
+                "value" => $this->registrant->validated_at,
+            ],
+            [
+                "label" => 'Lunas Pembayaran',
+                "value" => $this->registrant->paid_off_at,
+            ],
+            [
+                "label" => 'Diterima',
+                "value" => $this->registrant->accepted_at,
+            ],
+        ]);
+    }
+
     public function getCompleteness(): Collection
     {
         return collect([
