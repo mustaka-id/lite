@@ -52,9 +52,12 @@ class WaveResource extends Resource
                     Forms\Components\Section::make([
                         TableRepeater\Components\TableRepeater::make('meta.payment_components')
                             ->headers([
-                                TableRepeater\Header::make('category'),
-                                TableRepeater\Header::make('name'),
-                                TableRepeater\Header::make('amount'),
+                                TableRepeater\Header::make('category')
+                                    ->label(__('Category')),
+                                TableRepeater\Header::make('name')
+                                    ->label(__('Name')),
+                                TableRepeater\Header::make('amount')
+                                    ->label(__('Amount')),
                             ])
                             ->schema([
                                 Forms\Components\TextInput::make('category')
@@ -73,8 +76,10 @@ class WaveResource extends Resource
                     Forms\Components\Section::make([
                         TableRepeater\Components\TableRepeater::make('meta.files')
                             ->headers([
-                                TableRepeater\Header::make('category'),
-                                TableRepeater\Header::make('name'),
+                                TableRepeater\Header::make('category')
+                                    ->label(__('Category')),
+                                TableRepeater\Header::make('name')
+                                    ->label(__('Name')),
                             ])
                             ->schema([
                                 Forms\Components\TextInput::make('category')

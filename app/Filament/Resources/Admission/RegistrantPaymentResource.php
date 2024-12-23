@@ -135,6 +135,7 @@ class RegistrantPaymentResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('receiver.user.name')
+                    ->label(__('Officer'))
                     ->numeric()
                     ->sortable(),
                 AppComponents\Columns\LastModifiedColumn::make(),

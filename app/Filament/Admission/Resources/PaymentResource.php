@@ -40,7 +40,28 @@ class PaymentResource extends Resource
         return $table
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
-                //
+                Tables\Columns\TextColumn::make('bill.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('code')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->money('IDR')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('method')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('paid_at')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('payer.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('receiver.user.name')
+                    ->label(__('Officer'))
+                    ->numeric()
+                    ->sortable(),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()
             ])

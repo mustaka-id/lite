@@ -16,6 +16,7 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Js;
@@ -38,6 +39,21 @@ class Profile extends Page implements HasForms, HasActions
     public static function getNavigationGroup(): ?string
     {
         return __('Data');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        $label = str(class_basename(static::class))
+            ->kebab()
+            ->replace('-', ' ')
+            ->title();
+
+        return __((string) $label);
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        return self::getNavigationLabel();
     }
 
     public function mount(): void

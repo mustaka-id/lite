@@ -45,6 +45,9 @@ $steps = $this->getSteps();
                 <x-slot name="heading">
                     Progress pendaftaran
                 </x-slot>
+                <x-slot name="description">
+                    Ini merupakan progress pendaftaran Anda, diperbarui oleh Petugas PSB
+                </x-slot>
                 <ol class="flex flex-col flex-wrap gap-4 text-sm font-medium text-center text-gray-500 sm:items-center sm:flex-row xl:justify-between dark:text-gray-400 sm:text-base">
                     @foreach($steps as $step)
                     <li @class(['text-blue-600 dark:text-blue-500'=> $step['value']])>

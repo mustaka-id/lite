@@ -75,6 +75,7 @@ class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('path')
+                    ->label(__('File'))
                     ->alignCenter()
                     ->icon('heroicon-o-arrow-down-tray')
                     ->getStateUsing(fn($record) => $record->path ? __('Download') : null)
