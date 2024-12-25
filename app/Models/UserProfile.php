@@ -43,6 +43,7 @@ class UserProfile extends Model
             'siblings_count' => 'integer',
             'child_order' => 'integer',
             'aspiration' => 'array',
+            'meta' => 'array'
         ];
     }
 

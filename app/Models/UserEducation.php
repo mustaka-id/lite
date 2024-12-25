@@ -6,6 +6,7 @@ use App\Enums\Support\Grade;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravolt\Indonesia\Models\Village;
 
 class UserEducation extends Model
 {
@@ -20,6 +21,8 @@ class UserEducation extends Model
         'npsn',
         'certificate',
         'certificate_number',
+        'village_id',
+        'address',
     ];
 
     protected function casts(): array
@@ -32,5 +35,10 @@ class UserEducation extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function village(): BelongsTo
+    {
+        return $this->belongsTo(Village::class);
     }
 }

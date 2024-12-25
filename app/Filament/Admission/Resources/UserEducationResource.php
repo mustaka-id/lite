@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admission\Resources;
 
+use Indonesia;
 use App\Enums\Support\Grade;
 use App\Filament\Components as AppComponents;
 use App\Filament\Admission\Resources\UserEducationResource\Pages;
@@ -63,8 +64,31 @@ class UserEducationResource extends Resource
                     ->hint(fn($state) => strlen($state) . '/8')
                     ->length(8)
                     ->maxLength(8),
+
                 Forms\Components\TextInput::make('certificate_number')
                     ->label(__('School certificate number')),
+                Forms\Components\Select::make('village_id')
+                    ->label(__('Address'))
+                    ->searchable()
+                    ->placeholder(__('Search village'))
+                    ->getSearchResultsUsing(function (string $search): array {
+                        $villages = Indonesia::search($search)->paginateVillages(20, ['district.city.province']);
+                        return $villages->mapWithKeys(fn($village) => [$village->id => implode(', ', array_filter([
+                            $village->name,
+                            $village->district->name,
+                            $village->district->city->name
+                        ]))])->toArray();
+                    })
+                    ->getOptionLabelUsing(function ($value): ?string {
+                        $village = Indonesia::findVillage($value, ['district.city.province']);
+                        return implode(', ', array_filter([
+                            $village->name,
+                            $village->district->name,
+                            $village->district->city->name
+                        ]));
+                    })
+                    ->required()
+                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('certificate')
                     ->label(__('School certificate file'))
                     ->directory('educations')
@@ -90,6 +114,12 @@ class UserEducationResource extends Resource
                     ->getStateUsing(fn($record) => $record->certificate ? __('Download') : null)
                     ->url(fn($record) => $record->certificate ? Storage::url($record->certificate) : null)
                     ->openUrlInNewTab(),
+                Tables\Columns\TextColumn::make('address')
+                    ->getStateUsing(fn($record) => implode(', ', array_filter([
+                        $record->village->name,
+                        $record->village->district->name,
+                        $record->village->district->city->name
+                    ]))),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()
             ])

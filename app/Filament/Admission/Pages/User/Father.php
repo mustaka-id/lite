@@ -55,6 +55,9 @@ class Father extends Page
                             UserProfileForm::getReligionField(),
                             UserProfileForm::getNationalityField(),
                             UserProfileForm::getIsAliveField(),
+                            UserProfileForm::getMonthlyIncomeField(),
+                            UserProfileForm::getLastEducationField(),
+                            UserProfileForm::getWorkField(),
                         ])->columns(2)
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([

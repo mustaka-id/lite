@@ -66,6 +66,8 @@ return new class extends Migration
             $table->string('npsn')->nullable();
             $table->string('certificate')->nullable();
             $table->string('certificate_number')->nullable();
+            $table->string('village_id')->nullable();
+            $table->string('address')->nullable();
             $table->timestamps();
         });
 

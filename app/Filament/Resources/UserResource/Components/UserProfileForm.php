@@ -103,7 +103,7 @@ class UserProfileForm
             ->splitKeys(['Tab', ',']);
     }
 
-    public static function getLastEducationField($name = 'last_education_grade'): Forms\Components\Select
+    public static function getLastEducationField($name = 'meta.last_education_grade'): Forms\Components\Select
     {
         return Forms\Components\Select::make($name)
             ->options(Grade::class);
@@ -120,5 +120,11 @@ class UserProfileForm
         return Forms\Components\TextInput::make($name)
             ->maxLength(100)
             ->default('Indonesia');
+    }
+
+    public static function getWorkField($name = 'meta.work'): Forms\Components\TextInput
+    {
+        return Forms\Components\TextInput::make($name)
+            ->maxLength(100);
     }
 }
