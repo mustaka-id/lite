@@ -74,7 +74,7 @@
     "Details": "Detail",
     "Disable": "Matikan",
     "Discard": "Membuang",
-    "District": "Jalan",
+    "District": "Kecamatan",
     "Done": "Selesai",
     "Down": "Turun",
     "Download": "Unduh",
@@ -266,6 +266,7 @@
     "Search": "Cari",
     "Search :name": "Pencarian :name",
     "Secondary": "Sekunder",
+    "Hamlet": "Dusun",
     "See Other": "Lihat lainnya",
     "Select": "Pilih",
     "Select All": "Pilih Semua",
@@ -332,7 +333,7 @@
     "Verify Email Address": "Verifikasi Alamat Surel",
     "View": "Tampilan",
     "View :name": "Lihat :name",
-    "Village": "Desa",
+    "Village": "Desa/Kelurahan",
     "Wave": "Gelombang",
     "Wave id": "ID gelombang",
     "Web Server is Down": "Web server sedang turun",
@@ -341,5 +342,7 @@
     "Year id": "ID tahun",
     "Yes": "Ya",
     "You are receiving this email because we received a password reset request for your account.": "Anda menerima surel ini karena kami menerima permintaan pengaturan ulang kata sandi untuk akun anda.",
-    "Zipcode": "Kode pos"
+    "Zipcode": "Kode pos",
+    "Name and number of street or name of residence": "Nama dan nomor jalan atau nama perumahan",
+    "Data saved successfully": "Data berhasil disimpan"
 }

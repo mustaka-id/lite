@@ -45,9 +45,9 @@ class MasayaSeeder extends Seeder
                 'required' => true,
             ],
             [
-                'category' => 'user',
-                'name' => 'KTP',
-                'required' => true,
+                'category' => 'registrant',
+                'name' => 'Raport',
+                'required' => false,
             ],
         ];
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('secondary')->nullable();
             $table->unsignedSmallInteger('rt')->nullable();
             $table->unsignedSmallInteger('rw')->nullable();
+            $table->string('village_id')->nullable();
             $table->string('village')->nullable();
             $table->string('district')->nullable();
             $table->string('regency')->nullable();

@@ -2,8 +2,11 @@
 
 namespace App\Models\Support;
 
+use App\Observers\Support\AddressObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(AddressObserver::class)]
 class Address extends Model
 {
     protected $fillable = [
@@ -14,14 +17,15 @@ class Address extends Model
         'secondary',
         'rt',
         'rw',
+        'village_id',
         'village',
         'district',
         'regency',
         'province',
         'country',
-        'zip_code',
-        'latitude',
-        'longitude',
+        'zipcode',
+        'lat',
+        'long',
     ];
 
     public function addressable()

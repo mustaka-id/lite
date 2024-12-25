@@ -14,10 +14,11 @@
         "devaslanphp/auto-translate": "^1.0",
         "filament/filament": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
-        "laravel-lang/common": "^6.4",
         "flowframe/laravel-trend": "^0.3.0",
+        "laravel-lang/common": "^6.4",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "laravolt/indonesia": "^0.35.0",
         "spatie/eloquent-sortable": "^4.4"
     },
     "require-dev": {

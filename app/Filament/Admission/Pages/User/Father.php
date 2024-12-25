@@ -94,7 +94,7 @@ class Father extends Page
 
         Notification::make()
             ->success()
-            ->title(__('filament-panels::resources/pages/edit-record.notifications.saved.title'))
+            ->title(__('Data saved successfully'))
             ->send();
     }
 }

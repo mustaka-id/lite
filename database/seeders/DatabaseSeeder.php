@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Year;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,5 +27,7 @@ class DatabaseSeeder extends Seeder
             $this->call(MasayaSeeder::class);
         else
             $this->call(DummySeeder::class);
+
+        Artisan::call('laravolt:indonesia:seed');
     }
 }
