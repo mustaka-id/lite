@@ -32,11 +32,7 @@ class RegistrantStats extends BaseWidget
             Stat::make(__('Interview today'), Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '=', now()->format('Y-m-d'))->count())
                 ->description(__('Upcoming interiew') . ' ' . Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '>=', now()->format('Y-m-d'))->count() . ' ' . __('registrants'))
                 ->color('info')
-                ->icon('heroicon-o-document-duplicate')
-                ->extraAttributes([
-                    'class' => 'cursor-pointer',
-                    'wire:click' => "redirectToIndexMember()",
-                ]),
+                ->icon('heroicon-o-video-camera'),
         ];
     }
 
