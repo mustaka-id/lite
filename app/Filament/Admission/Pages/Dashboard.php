@@ -86,7 +86,7 @@ class Dashboard extends Page
                 "label" => 'Jadwal Wawancara',
                 'url' => null,
                 "value" => isset($this->registrant->meta['appointment_at']),
-                'description' => $this->registrant->meta['appointment_at'] ? Carbon::parse($this->registrant->meta['appointment_at'])->isoFormat('LLLL') : null
+                'description' => isset($this->registrant->meta['appointment_at']) ? Carbon::parse($this->registrant->meta['appointment_at'])->isoFormat('LLLL') : null
             ],
             [
                 "label" => 'Alamat Pendaftar',
