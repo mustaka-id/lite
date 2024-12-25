@@ -44,7 +44,7 @@ $appointed = isset($registrant->meta['appointment_at']);
                 </x-filament-panels::form>
             </x-filament::section>
             <x-filament::section compact class="ring-primary-200 dark:ring-primary-800/60 bg-primary-50 dark:bg-primary-900/40 text-primary-700 dark:text-primary-400">
-                Untuk konfirmasi pembayaran atau informasi lainnya, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold underline decoration-dotted text-primary-500">WhatsApp ini</a>
+                Untuk konfirmasi pembayaran atau informasi lainnya, silakan chat melalui <a href="https://wa.me/6282329528670" target="_blank" class="font-semibold underline decoration-dotted text-primary-500">WhatsApp ini</a>
             </x-filament::section>
             <x-filament::section icon="heroicon-o-exclamation-triangle">
                 <x-slot name="heading">

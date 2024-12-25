@@ -9,7 +9,7 @@
                 <a href="mailto:ma.ihsaniyya@gmail.com" target="_blank" class="hover:underline ">Email</a>
             </li>
             <li>
-                <a href="https://wa.me/62823329528670" target="_blank" class="hover:underline">Telepon</a>
+                <a href="https://wa.me/6282329528670" target="_blank" class="hover:underline">Telepon</a>
             </li>
             <li class="text-gray-400 dark:text-gray-600"> | </li>
             <li>
