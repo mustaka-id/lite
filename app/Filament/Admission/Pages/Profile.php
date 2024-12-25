@@ -96,6 +96,17 @@ class Profile extends Page implements HasForms, HasActions
                         ])
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([
+                    Forms\Components\Section::make(__('Registrant photo'))
+                        ->schema([
+                            Forms\Components\FileUpload::make('avatar')
+                                ->label(__('Choose file'))
+                                ->image()
+                                ->directory('avatars')
+                                ->maxSize(1024)
+                                ->imageCropAspectRatio('3:4')
+                                ->imageEditor()
+                                ->helperText(fn() => view('components.user.avatar-instructions')),
+                        ]),
                     Forms\Components\Section::make()
                         ->schema([
                             Forms\Components\Placeholder::make('updated_at')

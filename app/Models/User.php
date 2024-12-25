@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,9 +26,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 #[ObservedBy(UserObserver::class)]
-class User extends Authenticatable implements FilamentUser, HasTenants
+class User extends Authenticatable implements FilamentUser, HasTenants, HasAvatar
 {
     use HasFactory, Notifiable, SoftDeletes;
 
@@ -37,6 +39,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         'phone',
         'email',
         'password',
+        'avatar',
         'roles'
     ];
 
@@ -71,6 +74,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     public function canAccessTenant(Model $tenant): bool
     {
         return $this->childrens()->whereKey($tenant)->exists();
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return Storage::exists($this->avatar ?? -1) ? Storage::url($this->avatar) : null;
     }
 
     public function addresses(): MorphMany

@@ -21,7 +21,7 @@
     "Already Reported": "Sudah dilaporkan",
     "Amount": "Jumlah",
     "Archive": "Arsip",
-    "Aspiration": "Aspirasi",
+    "Aspiration": "Cita-cita",
     "Assign": "Menetapkan",
     "Associate": "Rekan",
     "Attach": "Lampirkan",
@@ -344,5 +344,6 @@
     "You are receiving this email because we received a password reset request for your account.": "Anda menerima surel ini karena kami menerima permintaan pengaturan ulang kata sandi untuk akun anda.",
     "Zipcode": "Kode pos",
     "Name and number of street or name of residence": "Nama dan nomor jalan atau nama perumahan",
-    "Data saved successfully": "Data berhasil disimpan"
+    "Data saved successfully": "Data berhasil disimpan",
+    "Registrant photo": "Foto calon santri"
 }

@@ -60,6 +60,11 @@ class Dashboard extends Page
                 "value" => $this->user->phone,
             ],
             [
+                "label" => 'Alamat Pendaftar',
+                'url' => Address::getUrl(),
+                "value" => $this->user->address,
+            ],
+            [
                 "label" => 'Data Ayah',
                 'url' => User\Father::getUrl(),
                 "value" => isset($this->user->father->parent),
