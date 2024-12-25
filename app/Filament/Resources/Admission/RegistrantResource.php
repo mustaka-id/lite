@@ -9,6 +9,7 @@ use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Models\Admission\Registrant;
 use App\Models\Admission\Wave;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
@@ -66,6 +67,7 @@ class RegistrantResource extends Resource
                             ->default(Auth::id())
                             ->preload()
                             ->searchable(),
+                        Forms\Components\DateTimePicker::make('meta.appointment_at'),
                     ]),
                     Forms\Components\Section::make()
                         ->relationship('note', fn(callable $get) => strlen($get('note.content')) > 0)
@@ -102,19 +104,17 @@ class RegistrantResource extends Resource
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('registeredBy.name')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('meta.appointment_at')
+                    ->label(__('Interview'))
+                    ->dateTime()
+                    ->sortable()
+                    ->badge()
+                    ->color(fn($record) => match (true) {
+                        Carbon::parse($record->meta['appointment_at'])->isToday() => 'danger',
+                        Carbon::parse($record->meta['appointment_at'])->gte(now()) => 'primary',
+                        default => 'gray',
+                    }),
                 Tables\Columns\TextColumn::make('registered_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('verified_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('validated_at')
-                    ->dateTime()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('paid_off_at')
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('accepted_at')

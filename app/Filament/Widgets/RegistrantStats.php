@@ -16,34 +16,42 @@ class RegistrantStats extends BaseWidget
 {
     protected static ?string $pollingInterval = '60s';
 
+    protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
         return [
-            Stat::make(__('Total registrant'), Registrant::count() . ' ' . __('Candidate'))
+            Stat::make(__('Registrant total'), Registrant::count() . ' ' . __('Registrant'))
                 ->description(__('Accepted') . ' ' . Registrant::whereNotNull('accepted_at')->count() . ' ' . __('students'))
                 ->color('primary')
                 ->icon('heroicon-o-users')
                 ->extraAttributes([
                     'class' => 'cursor-pointer',
                     'wire:click' => "redirectToIndexMember()",
-                ])
-                ->chart(array_map(fn() => rand(1, 100), range(1, 7))),
+                ]),
             Stat::make(__('Unpaid bill amount'), 'Rp ' . number_format(RegistrantBill::whereHas('items')->withSum('items', 'amount')->get()->sum('items_sum_amount') - RegistrantPayment::sum('amount'), 0, ',', '.'))
                 ->description(__('Total bill amount') . ' ' . 'Rp ' . number_format(RegistrantBill::whereHas('items')->withSum('items', 'amount')->get()->sum('items_sum_amount'), 0, ',', '.'))
-                ->color('primary')
-                ->icon('heroicon-o-users')
+                ->color('danger')
+                ->icon('heroicon-o-document-duplicate')
                 ->extraAttributes([
                     'class' => 'cursor-pointer',
                     'wire:click' => "redirectToIndexMember()",
-                ])
-                ->chart(array_map(fn() => rand(1, 100), range(1, 7))),
+                ]),
+            Stat::make(__('Interview today'), Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '=', now()->format('Y-m-d'))->count())
+                ->description(__('Upcoming interiew') . ' ' . Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '>=', now()->format('Y-m-d'))->count() . ' ' . __('registrants'))
+                ->color('info')
+                ->icon('heroicon-o-document-duplicate')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer',
+                    'wire:click' => "redirectToIndexMember()",
+                ]),
         ];
     }
 
     public static function canView(): bool
     {
         return true;
-        // return auth()->user()->role !== UserRole::Candidate && auth()->user()->role !== UserRole::Member;
+        // return auth()->user()->role !== UserRole::Registrant && auth()->user()->role !== UserRole::Member;
     }
 
     public function redirectToIndexMember()

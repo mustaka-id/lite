@@ -10,11 +10,13 @@ use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
 
-class MembershipCount extends ChartWidget
+class MonthlyRegistrantCount extends ChartWidget
 {
+    protected static ?int $sort = 2;
+
     public function getHeading(): string
     {
-        return __('Membership chart');
+        return __('Monthly registrant');
     }
 
     protected function getData(): array
@@ -39,9 +41,7 @@ class MembershipCount extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => __('registrant'),
-                    'backgroundColor' => '#d97706',
-                    'borderColor' => '#d97706',
+                    'label' => __('Registrant'),
                     'data' => $registrant->map(fn(TrendValue $value) => $value->aggregate),
                 ],
                 // [
