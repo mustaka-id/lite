@@ -24,19 +24,11 @@ class RegistrantStats extends BaseWidget
             Stat::make(__('Registrant total'), Registrant::count() . ' ' . __('Registrant'))
                 ->description(__('Accepted') . ' ' . Registrant::whereNotNull('accepted_at')->count() . ' ' . __('students'))
                 ->color('primary')
-                ->icon('heroicon-o-users')
-                ->extraAttributes([
-                    'class' => 'cursor-pointer',
-                    'wire:click' => "redirectToIndexMember()",
-                ]),
+                ->icon('heroicon-o-users'),
             Stat::make(__('Unpaid bill amount'), 'Rp ' . number_format(RegistrantBill::whereHas('items')->withSum('items', 'amount')->get()->sum('items_sum_amount') - RegistrantPayment::sum('amount'), 0, ',', '.'))
                 ->description(__('Total bill amount') . ' ' . 'Rp ' . number_format(RegistrantBill::whereHas('items')->withSum('items', 'amount')->get()->sum('items_sum_amount'), 0, ',', '.'))
                 ->color('danger')
-                ->icon('heroicon-o-document-duplicate')
-                ->extraAttributes([
-                    'class' => 'cursor-pointer',
-                    'wire:click' => "redirectToIndexMember()",
-                ]),
+                ->icon('heroicon-o-document-duplicate'),
             Stat::make(__('Interview today'), Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '=', now()->format('Y-m-d'))->count())
                 ->description(__('Upcoming interiew') . ' ' . Registrant::whereNotNull('meta->appointment_at')->whereDate('meta->appointment_at', '>=', now()->format('Y-m-d'))->count() . ' ' . __('registrants'))
                 ->color('info')
@@ -52,19 +44,5 @@ class RegistrantStats extends BaseWidget
     {
         return true;
         // return auth()->user()->role !== UserRole::Registrant && auth()->user()->role !== UserRole::Member;
-    }
-
-    public function redirectToIndexMember()
-    {
-        return redirect()->route('filament.admin.resources.members.index');
-    }
-    public function redirectToIndexWallet()
-    {
-
-        return redirect()->route('filament.admin.resources.wallets.index');
-    }
-    public function redirectToIndexSavingCycle()
-    {
-        return redirect()->route('filament.admin.resources.saving-cycles.index');
     }
 }
