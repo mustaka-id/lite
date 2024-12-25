@@ -4,9 +4,11 @@ $total_payments_amount = $this->registrant->payments->sum('amount');
 $remain = $total_bills_amount - $total_payments_amount;
 
 $completeness = $this->getCompleteness();
-$completeness_precentage = $completeness->where('value', true)->count() / $completeness->count() * 100;
+$completeness_precentage = round($completeness->where('value', true)->count() / $completeness->count() * 100);
 
 $steps = $this->getSteps();
+
+$appointed = isset($registrant->meta['appointment_at']);
 @endphp
 
 <x-filament-panels::page class="fi-dashboard-page">
@@ -18,24 +20,49 @@ $steps = $this->getSteps();
                                         ...$this->getWidgetData(),
                                     ]
                                 " :widgets="$this->getVisibleWidgets()" />
+            <x-filament::section icon="heroicon-o-video-camera" heading="Jadwal wawancara">
+                @if(!$appointed)
+                <x-slot name="headerEnd">
+                    <x-filament::badge color="danger" icon="heroicon-o-x-circle">
+                        Belum diatur
+                    </x-filament::badge>
+                </x-slot>
+                @endif
+                <x-filament-panels::form id="form" :wire:key="$this->getId() . '.forms.' . $this->getFormStatePath()" wire:submit="saveAppointment">
+                    @if(!$appointed)
+                    <div class="flex gap-6">
+                        <x-filament::input.wrapper class="w-full">
+                            <x-filament::input type="datetime-local" wire:model="appointment_at" min="{{ now()->format('Y-m-d\TH:i') }}" max="{{ now()->addWeek()->format('Y-m-d\TH:i') }}" required />
+                        </x-filament::input.wrapper>
+                        <x-filament::button type="submit" icon="heroicon-o-check-circle">
+                            {{ __('Save') }}
+                        </x-filament::button>
+                    </div>
+                    @else
+                    <p>Anda telah menjadwalkan wawancara pada <strong>{{ \Carbon\Carbon::parse($registrant->meta['appointment_at'])->isoFormat('LLLL') }}</strong>, jika ada perubahan silakan hubungi Petugas PSB melalui WhatsApp</p>
+                    @endif
+                </x-filament-panels::form>
+            </x-filament::section>
             <x-filament::section compact class="ring-primary-200 dark:ring-primary-800/60 bg-primary-50 dark:bg-primary-900/40 text-primary-700 dark:text-primary-400">
-                Untuk konfirmasi pembayaran, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold underline decoration-dotted text-primary-500">WhatsApp ini</a>
+                Untuk konfirmasi pembayaran atau informasi lainnya, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold underline decoration-dotted text-primary-500">WhatsApp ini</a>
             </x-filament::section>
             <x-filament::section icon="heroicon-o-exclamation-triangle">
                 <x-slot name="heading">
-                    Informasi
+                    Informasi & Pengumuman
                 </x-slot>
                 <ul class="space-y-4">
-                    @if($remain > 0)
+                    @if($remain > 0 || $this->announcements->count() > 0)
                     <li class="space-y-2 border-gray-200 border-s-2 dark:border-gray-800 ps-4">
                         <div>Anda memiliki tagihan yang belum dibayar sebesar {{ Number::currency($remain, in: 'IDR', locale: 'id') }}</div>
                         <x-filament::section compact class="ring-danger-200 dark:ring-danger-800/60 bg-danger-50 dark:bg-danger-900/40 text-danger-700 dark:text-danger-400">
                             Silakan lakukan pembayaran ke Nomor Rekening: BRI <strong>2200 0100 0311 300</strong> a.n. Madrasah Aliyah Ihsaniyya.
                         </x-filament::section>
-                        <div class="text-gray-500 dark:text-gray-400">
-                            Untuk konfirmasi pembayaran, silakan chat melalui <a href="https://wa.me/62823329528670" target="_blank" class="font-semibold hover:underline text-primary-500">WhatsApp ini</a>
-                        </div>
                     </li>
+                    @foreach($this->announcements as $announcement)
+                    <li class="space-y-2 border-gray-200 border-s-2 dark:border-gray-800 ps-4">
+                        <div class="prose dark:prose-invert">{!! $announcement->content !!}</div>
+                    </li>
+                    @endforeach
                     @else
                     <li>Tidak ada informasi yang ditampilkan</li>
                     @endif
@@ -81,11 +108,16 @@ $steps = $this->getSteps();
                 </x-slot>
                 <div class="space-y-4">
                     @foreach($completeness as $completion)
-                    <a href="{{ $completion['url'] }}" class="block group">
+                    <a href="{{ $completion['url'] ?? 'javascript:;' }}" class="block group">
                         <x-filament::section compact class="transition-colors dark:group-hover:bg-gray-800 group-hover:bg-gray-50">
                             <div class="flex items-center justify-between gap-4">
                                 <div @class(['grid rounded-full place-items-center size-8 text-sm font-semibold', $completion['value'] ? 'bg-success-500/20 text-success-700 dark:text-success-400' : 'bg-gray-100 dark:bg-gray-800' ])>{{ $loop->iteration }}</div>
-                                <div class="grow">{{ $completion['label'] }}</div>
+                                <div class="grow">
+                                    <div>{{ $completion['label'] }}</div>
+                                    @if(isset($completion['description']))
+                                    <div class="text-sm text-gray-500 dark:text-gray-400">{{ $completion['description'] }}</div>
+                                    @endif
+                                </div>
                                 @if($completion['value'])
                                 <x-heroicon-o-check-circle class="size-6 text-success-500" />
                                 @else

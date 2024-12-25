@@ -68,6 +68,12 @@ class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
             ->recordTitleAttribute('path')
             ->columns([
                 AppComponents\Columns\IDColumn::make(),
+                Tables\Columns\TextColumn::make('required')
+                    ->label('')
+                    ->badge()
+                    ->color(fn($state) => $state ? 'primary' : 'gray')
+                    ->width(1)
+                    ->formatStateUsing(fn($state) => $state ? __('Required') : __('Optional')),
                 Tables\Columns\TextColumn::make('category')
                     ->sortable()
                     ->searchable(),

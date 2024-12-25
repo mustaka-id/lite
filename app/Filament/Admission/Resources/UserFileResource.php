@@ -33,7 +33,7 @@ class UserFileResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('Files');
+        return __('File');
     }
 
     public static function form(Form $form): Form

@@ -101,7 +101,7 @@
     "Failed Dependency": "Dependensi gagal",
     "father": "ayah",
     "Father": "Ayah",
-    "File": "Mengajukan",
+    "File": "Berkas",
     "Files": "File",
     "Forbidden": "Dilarang",
     "Found": "Ditemukan",
@@ -348,5 +348,15 @@
     "Registrant photo": "Foto calon santri",
     "Last education grade": "Jenjang pendidikan terakhir",
     "Work": "Pekerjaan",
-    "Search village": "Cari desa/kelurahan"
+    "Search village": "Cari desa/kelurahan",
+    "Homepage": "Halaman utama",
+    "Registrant Dashboard": "Dashboard pendaftar",
+    "Published at": "Diterbitkan pada",
+    "Expired at": "Tgl Kadaluwarsa",
+    "Required": "Wajib",
+    "Optional": "Opsional",
+    "Announcement": "Pengumuman",
+    "Placement": "Penempatan",
+    "Title": "Judul",
+    "Interview schedule has been arranged": "Jadwal wawancara telah diatur"
 }

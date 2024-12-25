@@ -6,7 +6,10 @@ use App\Filament\Admission\Pages\User;
 use App\Filament\Admission\Resources\UserEducationResource;
 use App\Filament\Admission\Resources\UserFileResource;
 use App\Models\Admission\Registrant;
+use App\Models\Support\Announcement;
 use App\Models\User as UserModel;
+use Carbon\Carbon;
+use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as Page;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -19,10 +22,30 @@ class Dashboard extends Page
     public ?UserModel $user = null;
     public ?Registrant $registrant = null;
 
+    public Collection | array $announcements;
+
+    public ?string $appointment_at = null;
+
     public function mount(): void
     {
         $this->user = Auth::user();
         $this->registrant = $this->user->registrants()?->with('bills.items', 'payments')->first();
+        $this->announcements = Announcement::active()->get();
+
+        $this->appointment_at = $this->registrant->meta['appointment_at'] ?? null;
+    }
+
+    public function saveAppointment(): void
+    {
+        $meta = $this->registrant->meta;
+        $meta['appointment_at'] = $this->appointment_at;
+
+        $this->registrant->update(['meta' => $meta]);
+
+        Notification::make()
+            ->success()
+            ->title(__('Interview schedule has been arranged'))
+            ->send();
     }
 
     public function getSteps(): Collection
@@ -58,6 +81,12 @@ class Dashboard extends Page
                 "label" => 'Profil Pendaftar',
                 'url' => Profile::getUrl(),
                 "value" => $this->user->phone,
+            ],
+            [
+                "label" => 'Jadwal Wawancara',
+                'url' => null,
+                "value" => isset($this->registrant->meta['appointment_at']),
+                'description' => $this->registrant->meta['appointment_at'] ? Carbon::parse($this->registrant->meta['appointment_at'])->isoFormat('LLLL') : null
             ],
             [
                 "label" => 'Alamat Pendaftar',

@@ -38,6 +38,7 @@ return new class extends Migration
             $table->timestamp('validated_at')->nullable();
             $table->timestamp('paid_off_at')->nullable();
             $table->timestamp('accepted_at')->nullable();
+            $table->json('meta')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

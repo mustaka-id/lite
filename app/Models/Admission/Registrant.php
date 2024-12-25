@@ -30,6 +30,7 @@ class Registrant extends Model
         'validated_at',
         'paid_off_at',
         'accepted_at',
+        'meta'
     ];
 
     protected function casts(): array
@@ -40,6 +41,7 @@ class Registrant extends Model
             'validated_at' => 'datetime',
             'paid_off_at' => 'datetime',
             'accepted_at' => 'datetime',
+            'meta' => 'array'
         ];
     }
 
