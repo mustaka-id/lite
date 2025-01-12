@@ -20,6 +20,11 @@ class Address extends Profile
 
     public ?array $data = [];
 
+    public static function getNavigationLabel(): string
+    {
+        return __('Home Address');
+    }
+
     public function getTitle(): string | Htmlable
     {
         return self::getNavigationLabel();
@@ -89,12 +94,6 @@ class Address extends Profile
                                 ->required()
                                 ->columnSpan(2)
                                 ->maxLength(5),
-                            Forms\Components\TextInput::make('lat')
-                                ->numeric()
-                                ->columnSpan(2),
-                            Forms\Components\TextInput::make('long')
-                                ->numeric()
-                                ->columnSpan(2),
                         ])
                 ])->columnSpan(['lg' => 2]),
                 Forms\Components\Group::make([

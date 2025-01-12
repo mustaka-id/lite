@@ -27,12 +27,12 @@ class PaymentResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Admission');
+        return __('Administration');
     }
 
     public static function getModelLabel(): string
     {
-        return __('Payment');
+        return __('Payment History');
     }
 
     public static function table(Table $table): Table

@@ -105,6 +105,12 @@ class RegistrantBillResource extends Resource
                     ->sum('items', 'amount')
                     ->money('IDR')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('amount_paid')
+                    ->label(__('Amount paid'))
+                    ->getStateUsing(function (RegistrantBill $record) {
+                        return $record->registrant->payments->sum('amount');
+                    })
+                    ->money('IDR'),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make()
             ])

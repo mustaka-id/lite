@@ -75,8 +75,8 @@ class DummySeeder extends Seeder
             ],
             [
                 'category' => 'user',
-                'name' => 'KTP',
-                'required' => true,
+                'name' => 'Sertifikat Prestasi',
+                'required' => false,
             ],
         ];
     }

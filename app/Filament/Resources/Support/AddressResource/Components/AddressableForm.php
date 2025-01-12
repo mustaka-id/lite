@@ -52,12 +52,6 @@ class AddressableForm extends Section
                     ->required()
                     ->columnSpan(2)
                     ->maxLength(5),
-                Forms\Components\TextInput::make('lat')
-                    ->numeric()
-                    ->columnSpan(2),
-                Forms\Components\TextInput::make('long')
-                    ->numeric()
-                    ->columnSpan(2),
             ]);
 
         return $static;

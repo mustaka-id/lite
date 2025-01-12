@@ -226,7 +226,7 @@
     "Price": "Harga",
     "Primary": "Utama",
     "Processing": "Memproses",
-    "Profile": "Profil",
+    "Profile": "Biodata",
     "Province": "Provinsi",
     "Proxy Authentication Required": "Otentikasi proksi diperlukan",
     "Railgun Error": "Kesalahan Railgun",
@@ -286,7 +286,7 @@
     "SSL Handshake Failed": "Jabat tangan SSL gagal",
     "Start": "Awal",
     "Stop": "Berhenti",
-    "Student": "Siswa",
+    "Student": "Santri",
     "Submit": "Kirim",
     "Subscribe": "Langganan",
     "Success": "Berhasil",
@@ -367,5 +367,12 @@
     "Monthly registrant": "Pendaftar bulanan",
     "registrants": "pendaftar",
     "Interview today": "Wawancara hari ini",
-    "Upcoming interiew": "Wawancara yang akan datang"
+    "Upcoming interiew": "Wawancara yang akan datang",
+    "Appointment at": "Tanggal wawancara",
+    "Home Address": "Alamat Rumah",
+    "Upload files": "Unggah berkas",
+    "Allowed file types: .pdf, .jpg, .jpeg, .png; Max file size: 1MB": "Jenis berkas yang diizinkan: .pdf, .jpg, .jpeg, .png; Ukuran berkas maksimal: 1MB",
+    "Administration": "Administrasi",
+    "Payment History": "Riwayat Pembayaran",
+    "Amount paid": "Sudah bayar"
 }

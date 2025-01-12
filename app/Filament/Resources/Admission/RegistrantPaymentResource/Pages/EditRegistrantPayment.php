@@ -18,4 +18,15 @@ class EditRegistrantPayment extends EditRecord
             Actions\RestoreAction::make(),
         ];
     }
+
+    protected function afterSave(): void
+    {
+        if (isset($this->record->registrant)) {
+            $is_paid_off = $this->record->registrant->bills->load('items')->pluck('items.*.amount')->flatten()->sum() <= $this->record->registrant->payments->sum('amount');
+
+            $this->record->registrant->update([
+                'paid_at' => $is_paid_off ? now() : null,
+            ]);
+        }
+    }
 }

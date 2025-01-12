@@ -78,7 +78,7 @@ class Dashboard extends Page
     {
         return collect([
             [
-                "label" => 'Profil Pendaftar',
+                "label" => __('Profile'),
                 'url' => Profile::getUrl(),
                 "value" => $this->user->phone,
             ],
@@ -89,7 +89,7 @@ class Dashboard extends Page
                 'description' => isset($this->registrant->meta['appointment_at']) ? Carbon::parse($this->registrant->meta['appointment_at'])->isoFormat('LLLL') : null
             ],
             [
-                "label" => 'Alamat Pendaftar',
+                "label" => __('Home Address'),
                 'url' => Address::getUrl(),
                 "value" => $this->user->address,
             ],
@@ -104,7 +104,7 @@ class Dashboard extends Page
                 "value" => isset($this->user->mother->parent),
             ],
             [
-                "label" => 'Riwayat Pendidikan',
+                "label" => __("Education History"),
                 'url' => UserEducationResource::getUrl('index'),
                 "value" => $this->user->educations?->count() > 0,
             ],

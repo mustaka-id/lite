@@ -33,7 +33,7 @@ class UserFileResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('File');
+        return __('Upload files');
     }
 
     public static function form(Form $form): Form
@@ -51,7 +51,8 @@ class UserFileResource extends Resource
                     ->directory('users')
                     ->columnSpanFull()
                     ->acceptedFileTypes(['application/pdf', 'image/*'])
-                    ->maxSize(1024),
+                    ->maxSize(1024)
+                    ->helperText(__('Allowed file types: .pdf, .jpg, .jpeg, .png; Max file size: 1MB')),
             ]);
     }
 
