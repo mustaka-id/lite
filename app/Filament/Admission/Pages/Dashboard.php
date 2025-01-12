@@ -9,6 +9,8 @@ use App\Models\Admission\Registrant;
 use App\Models\Support\Announcement;
 use App\Models\User as UserModel;
 use Carbon\Carbon;
+use Filament\Forms;
+use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as Page;
 use Illuminate\Support\Collection;
@@ -26,6 +28,8 @@ class Dashboard extends Page
 
     public ?string $appointment_at = null;
 
+    public ?array $data = [];
+
     public function mount(): void
     {
         $this->user = Auth::user();
@@ -37,6 +41,10 @@ class Dashboard extends Page
 
     public function saveAppointment(): void
     {
+        // dd($this->data);
+        // Gabungkan date dan time menjadi datetime
+        $this->appointment_at = $this->data['appointment_date'] . 'T' . $this->data['appointment_time'];
+
         $meta = $this->registrant->meta;
         $meta['appointment_at'] = $this->appointment_at;
 
@@ -46,6 +54,32 @@ class Dashboard extends Page
             ->success()
             ->title(__('Interview schedule has been arranged'))
             ->send();
+    }
+
+    public function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Forms\Components\Group::make([
+                    Forms\Components\DatePicker::make('appointment_date')
+                        ->hiddenLabel()
+                        ->minDate(Carbon::now())
+                        ->maxDate(Carbon::now()->addWeek())
+                        ->required(),
+                    Forms\Components\Select::make('appointment_time')
+                        ->required()
+                        ->hiddenLabel()
+                        ->options(collect(range(9, 17))->mapWithKeys(function ($hour) {
+                            $time = str_pad($hour, 2, '0', STR_PAD_LEFT) . ':00';
+                            return [$time => $time];
+                        })->toArray())
+                        ->searchable(false)
+                        ->placeholder('09:00')
+                        ->selectablePlaceholder(false)
+                        ->default('08:00'),
+                ])->columns(2),
+            ])
+            ->statePath('data');
     }
 
     public function getSteps(): Collection

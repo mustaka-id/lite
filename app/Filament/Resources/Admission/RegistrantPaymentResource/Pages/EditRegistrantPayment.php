@@ -13,6 +13,16 @@ class EditRegistrantPayment extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\Action::make('send_whatsapp')
+                ->label(__('Send Receipt'))
+                ->url(function () {
+                    if (isset($this->record->registrant)) {
+                        $message = urlencode(
+                            "Hi {$this->record->registrant->user->name},\n\n"
+                        );
+                        return "https://wa.me/" . filter_var($this->record->registrant->phone, FILTER_SANITIZE_NUMBER_INT) . "?text=" . $message;
+                    }
+                })->openUrlInNewTab(),
             Actions\DeleteAction::make(),
             Actions\ForceDeleteAction::make(),
             Actions\RestoreAction::make(),
