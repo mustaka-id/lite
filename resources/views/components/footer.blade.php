@@ -12,12 +12,18 @@
                 <a href="https://wa.me/6282329528670" target="_blank" class="hover:underline">Telepon</a>
             </li>
             <li class="text-gray-400 dark:text-gray-600"> | </li>
+            @auth
+            <li>
+                <a href="{{ route('filament.admission.pages.profile') }}" class="hover:underline">Akun Saya</a>
+            </li>
+            @else
             <li>
                 <a href="{{ route('filament.admission.auth.login') }}" class="hover:underline">Login</a>
             </li>
             <li>
                 <a href="{{ route('filament.admission.auth.register') }}" class="hover:underline">Daftar</a>
             </li>
+            @endif
         </ul>
         <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="#" class="hover:underline">{{ config('app.name') }}</a>. All Rights Reserved.</span>
     </div>

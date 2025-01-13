@@ -60,7 +60,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, HasAvata
     public function canAccessPanel(Panel $panel): bool
     {
         return match ($panel->getId()) {
-            'admission' => $this->registrants()->count() > 0,
+            'admission' => str(request()->url())->contains('logout') ? true :  $this->registrants()->count() > 0,
             'admin' => count($this->roles ?? []) > 0,
             default => false,
         };
