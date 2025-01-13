@@ -71,7 +71,7 @@ class MasayaSeeder extends Seeder
             ["category" => "Madrasah", "name" => "Assesment, project, dan praktikum/semester", "amount" => 300000],
             ["category" => "Madrasah", "name" => "SPP Madrasah/bulan", "amount" => 250000],
             ["category" => "Madrasah", "name" => "Laptop flip & touchscreen (uang muka)*", "amount" => 2500000],
-            ["category" => "Madrasah", "name" => "Field trip/semester", "amount" => 2000000]
+            ["category" => "Madrasah", "name" => "Field trip/semester", "amount" => 200000]
         ];
     }
 }
