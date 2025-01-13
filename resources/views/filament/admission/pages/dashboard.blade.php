@@ -83,8 +83,8 @@ $appointed = isset($registrant->meta['appointment_at']);
                         <div>Anda memiliki tagihan yang belum dibayar sebesar
                             {{ Number::currency($remain, in: 'IDR', locale: 'id') }}</div>
                         <x-filament::section compact class="ring-danger-200 dark:ring-danger-800/60 bg-danger-50 dark:bg-danger-900/40 text-danger-700 dark:text-danger-400">
-                            Silakan lakukan pembayaran ke Nomor Rekening: BRI <strong>2200 0100 0311 300</strong>
-                            a.n. Madrasah Aliyah Ihsaniyya.
+                            Silakan lakukan pembayaran ke Nomor Rekening: BRI <strong>2200 0100 0314 308</strong>
+                            a.n. Nurul Ihsan YK.
                         </x-filament::section>
                     </li>
                     @endif
