@@ -17,6 +17,7 @@ class UserFile extends Model
         'category',
         'name',
         'path',
+        'required'
     ];
 
     protected function pathUrl(): Attribute

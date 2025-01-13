@@ -379,5 +379,10 @@
     "Registered": "Terdaftar",
     "Verified": "Terverifikasi",
     "Validated": "Divalidasi",
-    "Paid Off": "Lunas"
+    "Paid Off": "Lunas",
+    "Islam": "Islam",
+    "Chirst": "Kristen",
+    "Catholic": "Katolik",
+    "Hindu": "Hindu",
+    "Buddha": "Buddha"
 }

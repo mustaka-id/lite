@@ -18,6 +18,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
+use function Laravel\Prompts\search;
+
 class Dashboard extends Page
 {
     protected static string $view = 'filament.admission.pages.dashboard';
@@ -85,10 +87,10 @@ class Dashboard extends Page
                             $time = str_pad($hour, 2, '0', STR_PAD_LEFT) . ':00';
                             return [$time => $time];
                         })->toArray())
+                        ->placeholder('Pilih jam')
                         ->searchable(false)
-                        ->placeholder('09:00')
                         ->selectablePlaceholder(false)
-                        ->default('08:00'),
+                        ->default('09:00'),
                 ])->columns(2),
             ])
             ->statePath('data');
@@ -137,7 +139,7 @@ class Dashboard extends Page
             [
                 "label" => __('Home Address'),
                 'url' => Address::getUrl(),
-                "value" => $this->user->address,
+                "value" => isset($this->user->address->village_id),
             ],
             [
                 "label" => 'Data Ayah',
