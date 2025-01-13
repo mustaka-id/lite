@@ -80,16 +80,19 @@ class WaveResource extends Resource
                                     ->label(__('Category')),
                                 TableRepeater\Header::make('name')
                                     ->label(__('Name')),
+                                TableRepeater\Header::make('required')
+                                    ->label(__('Wajib?')),
                             ])
                             ->schema([
-                                Forms\Components\TextInput::make('category')
+                                Forms\Components\Select::make('category')
                                     ->required()
-                                    ->maxLength(255),
+                                    ->options(['user', 'registrant']),
                                 Forms\Components\TextInput::make('name')
                                     ->required()
                                     ->maxLength(255),
+                                Forms\Components\Toggle::make('required')
                             ])
-                            ->minItems(1)
+                            ->minItems(0)
                             ->columns(3),
                     ]),
                 ])->columnSpan(['lg' => 2]),
