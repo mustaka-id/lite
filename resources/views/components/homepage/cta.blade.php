@@ -8,7 +8,7 @@
                     Daftar Sekarang
                     <x-heroicon-o-arrow-right class="w-5 h-5 ml-2 -mr-1" />
                 </a>
-                <a href="{{ asset('brosur-psb-25-26.pdf') }}" target="_blank" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                <a href="{{ asset('BROSUR-PPDB-MASAYA-2025-2026.pdf') }}" target="_blank" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                     <x-heroicon-o-arrow-down-tray class="w-5 h-5 mr-2 -ml-1" />
                     Unduh Brosur
                 </a>

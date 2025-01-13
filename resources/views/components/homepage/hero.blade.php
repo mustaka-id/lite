@@ -3,7 +3,7 @@ $opened = $this->waves?->count() > 0;
 @endphp
 
 <section>
-    <div class="max-w-screen-xl px-4 py-16 mx-auto text-center sm:py-28 lg:px-6">
+    <div class="max-w-screen-xl px-4 py-16 mx-auto text-center sm:py-28 lg:px-6 lg:py-36">
         <a href="{{ route('filament.admission.auth.register') }}" class="inline-flex items-center justify-between px-1 py-1 pr-4 text-sm text-gray-700 bg-gray-100 rounded-full mb-7 dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" role="alert">
             <span @class(["text-xs rounded-full text-white px-4 py-1.5 mr-3", $opened ? 'bg-primary-600' : 'bg-red-500' ])>{{ $opened ? 'Dibuka' : 'Ditutup' }}</span> <span class="text-sm font-medium">Pendaftaran Santri Baru</span>
             <x-heroicon-o-chevron-right class="w-5 h-5 ml-2" />
@@ -15,7 +15,7 @@ $opened = $this->waves?->count() > 0;
                 Daftar Sekarang
                 <x-heroicon-o-arrow-right class="w-5 h-5 ml-2 -mr-1" />
             </a>
-            <a href="{{ asset('brosur-psb-25-26.pdf') }}" target="_blank" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+            <a href="{{ asset('BROSUR-PPDB-MASAYA-2025-2026.pdf') }}" target="_blank" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                 <x-heroicon-o-arrow-down-tray class="w-5 h-5 mr-2 -ml-1" />
                 Unduh Brosur
             </a>

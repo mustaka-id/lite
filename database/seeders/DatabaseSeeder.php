@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRole;
+use App\Models\Employee;
 use App\Models\User;
 use App\Models\Year;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,10 +18,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'name' => 'Test User',
+        $user = User::factory()->create([
+            'name' => 'Super Admin',
             'email' => 'test@example.com',
             'roles' => [UserRole::SuperAdmin]
+        ]);
+
+        $user->employees()->create([
+            'name' => $user->name,
+            'code' => 'SUPER-ADMIN',
+            'joined_at' => now()
         ]);
 
         if (app()->isProduction())

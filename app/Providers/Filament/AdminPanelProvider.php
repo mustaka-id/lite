@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Forms;
 use Filament\Infolists;
 use Filament\Actions;
+use Filament\Enums\ThemeMode;
 use Filament\Navigation\NavigationGroup;
 use Filament\Tables;
 use Filament\PanelProvider;
@@ -46,13 +47,14 @@ class AdminPanelProvider extends PanelProvider
             ->maxContentWidth(MaxWidth::Full)
             ->font('Onest')
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => Color::Blue,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->discoverClusters(in: app_path('Filament/Clusters'), for: 'App\\Filament\\Clusters')
             ->viteTheme('resources/css/filament/admin/theme.css')
+            ->defaultThemeMode(ThemeMode::Dark)
             ->favicon(asset('/favicon.ico'))
             ->pages([
                 Pages\Dashboard::class,

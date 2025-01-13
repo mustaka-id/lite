@@ -374,5 +374,10 @@
     "Allowed file types: .pdf, .jpg, .jpeg, .png; Max file size: 1MB": "Jenis berkas yang diizinkan: .pdf, .jpg, .jpeg, .png; Ukuran berkas maksimal: 1MB",
     "Administration": "Administrasi",
     "Payment History": "Riwayat Pembayaran",
-    "Amount paid": "Sudah bayar"
+    "Amount paid": "Sudah bayar",
+    "Send Receipt via WA": "Kirim bukti pembayaran via WA",
+    "Registered": "Terdaftar",
+    "Verified": "Terverifikasi",
+    "Validated": "Divalidasi",
+    "Paid Off": "Lunas"
 }

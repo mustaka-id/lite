@@ -55,21 +55,23 @@ class MasayaSeeder extends Seeder
     private function getPaymentComponents(): array
     {
         return [
-            ["category" => "Pesantren", "name" => "Pendaftaran", "amount" => 100000],
-            ["category" => "Pesantren", "name" => "Kitab Kuning/tahun", "amount" => 150000],
-            ["category" => "Pesantren", "name" => "Penggunaan Listrik, Air, dan Syahriyah/Bulan", "amount" => 210000],
-            ["category" => "Pesantren", "name" => "Makan 3x/ Hari/Bulan", "amount" => 500000],
-            ["category" => "Pesantren", "name" => "Dana Pengembangan Pesantren (1x selama menjadi santri)", "amount" => 500000],
-            ["category" => "Pesantren", "name" => "Biaya Kasur", "amount" => 450000],
-            ["category" => "Pesantren", "name" => "Biaya pemakaian almari 3 tahun", "amount" => 350000],
-            ["category" => "Pesantren", "name" => "SPP Madrasah Diniyah/bulan", "amount" => 50000],
-            ["category" => "Madrasah", "name" => "Seragam Olahraga", "amount" => 200000],
-            ["category" => "Madrasah", "name" => "Seragan Identitas", "amount" => 360000],
-            ["category" => "Madrasah", "name" => "Pengembangan & Inovasi Madrasah/Tahun", "amount" => 1000000],
-            ["category" => "Madrasah", "name" => "SPP Madrasah/Bulan", "amount" => 250000],
-            ["category" => "Madrasah", "name" => "Laptop Flip & Touchscreen (Uang muka)*", "amount" => 2500000],
-            ["category" => "Madrasah", "name" => "Study Lapangan/semester", "amount" => 200000],
-            ["category" => "Madrasah", "name" => "Assesment, Project, dan Praktikum/Semester", "amount" => 300000]
+            ["category" => "Pesantren", "name" => "Pendaftaran", "amount" => 150000],
+            ["category" => "Pesantren", "name" => "Administrasi Pesantren", "amount" => 100000],
+            ["category" => "Pesantren", "name" => "Kitab kuning Madrasah Diniyah", "amount" => 170000],
+            ["category" => "Pesantren", "name" => "Syahriah Pesantren", "amount" => 210000],
+            ["category" => "Pesantren", "name" => "SPP Madrasah al-Qur’an", "amount" => 50000],
+            ["category" => "Pesantren", "name" => "SPP Madrasah Diniyah", "amount" => 50000],
+            ["category" => "Pesantren", "name" => "Makan 3x/hari/bulan", "amount" => 500000],
+            ["category" => "Pesantren", "name" => "Pemakaian almari (menjadi hak milik)", "amount" => 350000],
+            ["category" => "Pesantren", "name" => "Pemakaian kasur (menjadi hak milik)", "amount" => 400000],
+            ["category" => "Pesantren", "name" => "Dana pengembangan Pesantren", "amount" => 500000],
+            ["category" => "Madrasah", "name" => "Seragam olahraga", "amount" => 200000],
+            ["category" => "Madrasah", "name" => "Seragam identitas", "amount" => 360000],
+            ["category" => "Madrasah", "name" => "Pengembangan & inovasi Madrasah/tahun", "amount" => 1000000],
+            ["category" => "Madrasah", "name" => "Assesment, project, dan praktikum/semester", "amount" => 300000],
+            ["category" => "Madrasah", "name" => "SPP Madrasah/bulan", "amount" => 250000],
+            ["category" => "Madrasah", "name" => "Laptop flip & touchscreen (uang muka)*", "amount" => 2500000],
+            ["category" => "Madrasah", "name" => "Field trip/semester", "amount" => 2000000]
         ];
     }
 }

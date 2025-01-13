@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Admission\RegistrantPaymentResource\Pages;
 use App\Filament\Resources\Admission\RegistrantPaymentResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Number;
 
 class EditRegistrantPayment extends EditRecord
 {
@@ -13,13 +14,14 @@ class EditRegistrantPayment extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('send_whatsapp')
-                ->label(__('Send Receipt'))
+            Actions\Action::make('send_receipt')
+                ->label(__('Send Receipt via WA'))
+                ->icon('heroicon-o-chat-bubble-oval-left-ellipsis')
+                ->color('gray')
                 ->url(function () {
+                    $amount = Number::currency($this->record->amount, in: 'IDR', locale: 'id');
                     if (isset($this->record->registrant)) {
-                        $message = urlencode(
-                            "Hi {$this->record->registrant->user->name},\n\n"
-                        );
+                        $message = urlencode("Halo {$this->record->registrant->user->name}\n\nPembayaran kamu sebesar {$amount} telah diterima oleh {$this->record->receiver->user->name} pada hari {$this->record->created_at->isoFormat('LLLL')}.\nNomor pembayaran: {$this->record->code}\n\nTerima kasih.");
                         return "https://wa.me/" . filter_var($this->record->registrant->phone, FILTER_SANITIZE_NUMBER_INT) . "?text=" . $message;
                     }
                 })->openUrlInNewTab(),

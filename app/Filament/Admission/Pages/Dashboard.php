@@ -9,6 +9,7 @@ use App\Models\Admission\Registrant;
 use App\Models\Support\Announcement;
 use App\Models\User as UserModel;
 use Carbon\Carbon;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -29,6 +30,17 @@ class Dashboard extends Page
     public ?string $appointment_at = null;
 
     public ?array $data = [];
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('Unduh brosur')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->color('gray')
+                ->url(asset('BROSUR-PPDB-MASAYA-2025-2026.pdf'))
+                ->openUrlInNewTab()
+        ];
+    }
 
     public function mount(): void
     {
