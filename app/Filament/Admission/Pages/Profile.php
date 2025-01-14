@@ -5,6 +5,7 @@ namespace App\Filament\Admission\Pages;
 use App\Filament\Components as AppComponents;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\Admission\Registrant;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Concerns\InteractsWithRecord;
@@ -38,17 +39,12 @@ class Profile extends Page implements HasForms, HasActions
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Data');
+        return __('Registration Form');
     }
 
     public static function getNavigationLabel(): string
     {
-        $label = str(class_basename(static::class))
-            ->kebab()
-            ->replace('-', ' ')
-            ->title();
-
-        return __((string) $label);
+        return __('Identity');
     }
 
     public function getTitle(): string | Htmlable
@@ -67,6 +63,7 @@ class Profile extends Page implements HasForms, HasActions
     {
         return $form
             ->columns(3)
+            ->disabled(isset(Registrant::latest()->whereBelongsTo(Auth::user())->first()?->registered_at))
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([

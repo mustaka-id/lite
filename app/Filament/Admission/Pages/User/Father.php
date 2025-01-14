@@ -7,10 +7,12 @@ use App\Enums\Sex;
 use App\Filament\Admission\Pages\Profile as Page;
 use App\Filament\Resources\UserResource\Components\UserForm;
 use App\Filament\Resources\UserResource\Components\UserProfileForm;
+use App\Models\Admission\Registrant;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +21,16 @@ class Father extends Page
     protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function getNavigationLabel(): string
+    {
+        return __('Father Data');
+    }
+
+    public function getTitle(): string | Htmlable
+    {
+        return self::getNavigationLabel();
+    }
 
     public function getParentType(): ParentType
     {
@@ -36,6 +48,7 @@ class Father extends Page
     {
         return $form
             ->columns(3)
+            ->disabled(isset(Registrant::latest()->whereBelongsTo(Auth::user())->first()?->registered_at))
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make([

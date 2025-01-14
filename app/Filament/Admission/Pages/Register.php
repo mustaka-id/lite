@@ -44,7 +44,6 @@ class Register extends Page
 
         if ($registrant = $user->registrants()->create([
             'wave_id' => $data['wave_id'],
-            'registered_at' => now(),
             'registered_by' => $user->id
         ])) {
             $bill = static::assignBills($registrant);

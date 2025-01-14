@@ -6,6 +6,7 @@ use App\Filament\Components as AppComponents;
 use App\Filament\Admission\Resources\UserFileResource\Pages;
 use App\Filament\Admission\Resources\UserFileResource\RelationManagers;
 use App\Filament\Resources\Admission\RegistrantResource\Pages\ManageUserFiles;
+use App\Models\Admission\Registrant;
 use App\Models\UserFile;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -28,7 +29,7 @@ class UserFileResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Data');
+        return __('Registration Form');
     }
 
     public static function getModelLabel(): string
@@ -71,7 +72,8 @@ class UserFileResource extends Resource
                 Tables\Actions\EditAction::make()
                     ->icon('heroicon-o-arrow-up-tray')
                     ->hiddenLabel(false)
-                    ->label('Upload'),
+                    ->label('Upload')
+                    ->disabled(isset(Registrant::latest()->whereBelongsTo(Auth::user())->first()?->registered_at)),
             ]);
     }
 

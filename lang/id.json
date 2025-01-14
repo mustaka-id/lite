@@ -384,5 +384,14 @@
     "Chirst": "Kristen",
     "Catholic": "Katolik",
     "Hindu": "Hindu",
-    "Buddha": "Buddha"
+    "Buddha": "Buddha",
+    "Male": "Laki-laki",
+    "Female": "Perempuan",
+    "Process": "Proses",
+    "Progress": "Kemajuan",
+    "Registration Form": "Formulir Pendaftaran",
+    "Identity": "Identitas",
+    "Father Data": "Data Ayah",
+    "Mother Data": "Data Ibu",
+    "Personal Data": "Data Pribadi"
 }

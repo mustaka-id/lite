@@ -54,6 +54,11 @@ class Dashboard extends Page
         $this->appointment_at = $this->registrant->meta['appointment_at'] ?? null;
     }
 
+    public function finalizeRegistration(): void
+    {
+        $this->registrant->update(['registered_at' => now()]);
+    }
+
     public function saveAppointment(): void
     {
         // dd($this->data);
@@ -89,9 +94,7 @@ class Dashboard extends Page
                             return [$time => $time];
                         })->toArray())
                         ->placeholder('Pilih jam')
-                        ->searchable(false)
-                        ->selectablePlaceholder(false)
-                        ->default('09:00'),
+                        ->searchable(false),
                 ])->columns(2),
             ])
             ->statePath('data');
@@ -101,7 +104,7 @@ class Dashboard extends Page
     {
         return collect([
             [
-                "label" => 'Terdaftar',
+                "label" => 'Kirim Formulir',
                 "value" => $this->registrant->registered_at,
             ],
             [
@@ -123,24 +126,29 @@ class Dashboard extends Page
         ]);
     }
 
-    public function getCompleteness(): Collection
+    public function getRegistrationFormSection(): Collection
     {
         return collect([
             [
-                "label" => __('Profile'),
-                'url' => Profile::getUrl(),
-                "value" => $this->user->phone,
-            ],
-            [
-                "label" => 'Jadwal Wawancara',
-                'url' => null,
-                "value" => isset($this->registrant->meta['appointment_at']),
-                'description' => isset($this->registrant->meta['appointment_at']) ? Carbon::parse($this->registrant->meta['appointment_at'])->isoFormat('LLLL') : null
-            ],
-            [
-                "label" => __('Home Address'),
-                'url' => Address::getUrl(),
-                "value" => isset($this->user->address->village_id),
+                "label" => __('Personal Data'),
+                'value' => $this->user->phone && isset($this->user->address->village_id) && $this->user->educations?->count() > 0,
+                'children' => [
+                    [
+                        "label" => __('Identity'),
+                        'url' => Profile::getUrl(),
+                        "value" => $this->user->phone,
+                    ],
+                    [
+                        "label" => __('Home Address'),
+                        'url' => Address::getUrl(),
+                        "value" => isset($this->user->address->village_id),
+                    ],
+                    [
+                        "label" => __("Education History"),
+                        'url' => UserEducationResource::getUrl('index'),
+                        "value" => $this->user->educations?->count() > 0,
+                    ],
+                ]
             ],
             [
                 "label" => 'Data Ayah',
@@ -151,11 +159,6 @@ class Dashboard extends Page
                 "label" => 'Data Ibu',
                 'url' => User\Mother::getUrl(),
                 "value" => isset($this->user->mother->parent),
-            ],
-            [
-                "label" => __("Education History"),
-                'url' => UserEducationResource::getUrl('index'),
-                "value" => $this->user->educations?->count() > 0,
             ],
             [
                 "label" => 'Berkas Pendaftaran',

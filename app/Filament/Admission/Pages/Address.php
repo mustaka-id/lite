@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admission\Pages;
 
+use App\Models\Admission\Registrant;
 use Indonesia;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -25,6 +26,11 @@ class Address extends Profile
         return __('Home Address');
     }
 
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Identity');
+    }
+
     public function getTitle(): string | Htmlable
     {
         return self::getNavigationLabel();
@@ -41,6 +47,7 @@ class Address extends Profile
     {
         return $form
             ->columns(3)
+            ->disabled(isset(Registrant::latest()->whereBelongsTo(Auth::user())->first()?->registered_at))
             ->schema([
                 Forms\Components\Group::make([
                     Forms\Components\Section::make()

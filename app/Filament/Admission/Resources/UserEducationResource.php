@@ -7,6 +7,7 @@ use App\Enums\Support\Grade;
 use App\Filament\Components as AppComponents;
 use App\Filament\Admission\Resources\UserEducationResource\Pages;
 use App\Filament\Admission\Resources\UserEducationResource\RelationManagers;
+use App\Models\Admission\Registrant;
 use App\Models\UserEducation;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -30,12 +31,17 @@ class UserEducationResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('Data');
+        return __('Registration Form');
     }
 
     public static function getModelLabel(): string
     {
         return __('Education History');
+    }
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return __('Identity');
     }
 
     public static function form(Form $form): Form
@@ -127,7 +133,8 @@ class UserEducationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->disabled(isset(Registrant::latest()->whereBelongsTo(Auth::user())->first()?->registered_at)),
             ]);
     }
 
