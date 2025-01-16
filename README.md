@@ -1,6 +1,6 @@
 # Mustaka Lite
 
-Mustaka Lite adalah sistem manajemen sekolah yang dirancang untuk memudahkan administrasi kelas, karyawan, siswa, dan pendaftaran siswa baru. Dibangun dengan **Filament PHP v3** dan **Livewire**, aplikasi ini menawarkan dua panel utama: **Admin** dan **PSB** (Penerimaan Siswa Baru).
+Mustaka Lite adalah sistem manajemen sekolah yang dirancang untuk memudahkan administrasi kelas, karyawan, siswa, dan pendaftaran siswa baru. Dibangun dengan **Filament PHP v3** dan **Livewire**, aplikasi ini menawarkan dua panel utama: **Admin** dan **PPDB** (Penerimaan Siswa Baru).
 
 ## Fitur Utama
 
@@ -25,7 +25,7 @@ Mustaka Lite adalah sistem manajemen sekolah yang dirancang untuk memudahkan adm
 ## Panel Admin
 - Mengelola semua aspek administrasi sekolah, termasuk data kelas, karyawan, siswa, dan keuangan.
 
-## Panel PSB (Penerimaan Siswa Baru)
+## Panel PPDB (Penerimaan Siswa Baru)
 - Dirancang khusus untuk mengelola proses pendaftaran siswa baru dari awal hingga selesai, termasuk wawancara dan pembayaran.
 
 ## Teknologi yang Digunakan

@@ -111,17 +111,17 @@ class Dashboard extends Page
                 "label" => 'Terverifikasi',
                 "value" => $this->registrant->verified_at,
             ],
+            // [
+            //     "label" => 'Data valid',
+            //     "value" => $this->registrant->validated_at,
+            // ],
             [
-                "label" => 'Data valid',
-                "value" => $this->registrant->validated_at,
+                "label" => 'Diterima',
+                "value" => $this->registrant->accepted_at,
             ],
             [
                 "label" => 'Lunas Pembayaran',
                 "value" => $this->registrant->paid_off_at,
-            ],
-            [
-                "label" => 'Diterima',
-                "value" => $this->registrant->accepted_at,
             ],
         ]);
     }

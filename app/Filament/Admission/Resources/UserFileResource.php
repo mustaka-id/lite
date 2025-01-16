@@ -44,6 +44,7 @@ class UserFileResource extends Resource
             ->columns(1)
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('File type')
                     ->disabled()
                     ->required(),
                 Forms\Components\FileUpload::make('path')

@@ -26,7 +26,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
     {
         return $panel
             ->id('admission')
-            ->path('psb')
+            ->path('ppdb')
             ->login(Pages\Login::class)
             ->profile(Pages\Account::class, isSimple: false)
             ->registration(Pages\Register::class)
@@ -39,7 +39,7 @@ class AdmissionPanelProvider extends AdminPanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->maxContentWidth(MaxWidth::Full)
             ->font('Onest')
-            ->brandName('Portal PSB')
+            ->brandName('PPDB MA Ihsaniyya')
             ->colors([
                 'primary' => Color::Blue,
             ])

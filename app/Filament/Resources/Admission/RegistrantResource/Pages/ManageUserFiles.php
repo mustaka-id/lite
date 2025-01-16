@@ -78,6 +78,7 @@ class ManageUserFiles extends ManageRelatedRecords implements HasHeaderActions
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('File type')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('path')

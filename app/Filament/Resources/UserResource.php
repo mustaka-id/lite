@@ -42,6 +42,17 @@ class UserResource extends Resource
                     ]),
                 ]),
                 Forms\Components\Group::make([
+                    Forms\Components\Section::make(__('User avatar'))
+                        ->schema([
+                            Forms\Components\FileUpload::make('avatar')
+                                ->label(__('Choose file'))
+                                ->image()
+                                ->directory('avatars')
+                                ->maxSize(1024)
+                                ->imageCropAspectRatio('3:4')
+                                ->imageEditor()
+                                ->helperText(fn() => view('components.user.avatar-instructions')),
+                        ]),
                     AppComponents\Forms\TimestampPlaceholder::make()
                 ]),
             ]);

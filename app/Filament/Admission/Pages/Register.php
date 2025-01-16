@@ -57,7 +57,7 @@ class Register extends Page
     {
         if (isset($registrant->wave->meta['payment_components']) && count($registrant->wave->meta['payment_components']))
             if ($bill = $registrant->bills()->create([
-                'name' => "Pembayaran PSB {$registrant->wave->name}"
+                'name' => "Pembayaran PPDB {$registrant->wave->name}"
             ]))
                 $bill->items()->saveMany(Arr::map(
                     $registrant->wave->meta['payment_components'],
