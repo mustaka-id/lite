@@ -4,7 +4,7 @@ $total_payments_amount = $this->registrant->payments->sum('amount');
 $remain = $total_bills_amount - $total_payments_amount;
 
 $completeness = $this->getRegistrationFormSection();
-$completeness_precentage = round(($completeness->where('value', true)->count() / $completeness->whereNull('optional')->count()) * 100);
+$completeness_precentage = round(($completeness->whereNull('optional')->where('value', true)->count() / $completeness->whereNull('optional')->count()) * 100);
 
 $steps = $this->getSteps();
 
