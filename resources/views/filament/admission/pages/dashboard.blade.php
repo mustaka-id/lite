@@ -38,7 +38,7 @@ $appointed = isset($registrant->meta['appointment_at']);
                                 @if (isset($this->registrant->registered_at))
                                 Terkirim
                                 @else
-                                {{ $completeness_precentage }}%
+                                {{ $completeness_precentage >= 100 ? 100 : $completeness_precentage }}%
                                 @endif
                             </x-filament::badge>
                         </x-slot>
