@@ -4,9 +4,11 @@ namespace App\Filament\Resources\UserResource\Components;
 
 use App\Enums\BloodType;
 use App\Enums\MonthlyIncome;
+use App\Enums\Parentship\ParentType;
 use App\Enums\Religion;
 use App\Enums\Sex;
 use App\Enums\Support\Grade;
+use App\Models\UserParent;
 use Carbon\Month;
 use Filament\Forms;
 use Illuminate\Support\Facades\Hash;

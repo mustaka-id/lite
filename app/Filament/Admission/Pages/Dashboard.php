@@ -161,6 +161,12 @@ class Dashboard extends Page
                 "value" => isset($this->user->mother->parent),
             ],
             [
+                "label" => 'Data Wali',
+                'url' => User\Trustee::getUrl(),
+                "value" => isset($this->user->trustee->parent),
+                'optional' => true
+            ],
+            [
                 "label" => 'Berkas Pendaftaran',
                 'url' => UserFileResource::getUrl('index'),
                 "value" => $this->registrant->files->filter(fn($file) => $file->required && !Storage::exists($file->path ?? '-1'))->count() == 0

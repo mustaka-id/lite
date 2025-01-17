@@ -67,7 +67,9 @@ class Father extends Page
                             UserProfileForm::getDobField(),
                             UserProfileForm::getReligionField(),
                             UserProfileForm::getNationalityField(),
-                            UserProfileForm::getIsAliveField(),
+                            UserProfileForm::getIsAliveField()
+                                ->hidden(fn() => $this?->getParentType() == ParentType::Trustee)
+                                ->dehydrated(),
                             UserProfileForm::getMonthlyIncomeField(),
                             UserProfileForm::getLastEducationField(),
                             UserProfileForm::getWorkField(),
