@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\UserRole;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
@@ -38,7 +39,11 @@ class UserResource extends Resource
                         UserForm::getNameField(),
                         UserForm::getNikField(),
                         UserForm::getPhoneField(),
-                        UserForm::getEmailField()
+                        UserForm::getEmailField(),
+                        Forms\Components\Select::make('roles')
+                            ->options(UserRole::class)
+                            ->multiple()
+                            ->preload(),
                     ]),
                 ]),
                 Forms\Components\Group::make([
@@ -70,6 +75,10 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles')
+                    ->badge()
+                    ->searchable()
+                    ->sortable(),
                 AppComponents\Columns\LastModifiedColumn::make(),
                 AppComponents\Columns\CreatedAtColumn::make(),
             ])
